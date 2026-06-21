@@ -1725,9 +1725,22 @@
             pointer-events: none;
         }
 
+        .top-right-buttons.always-show {
+            display: flex !important;
+        }
+
         body.showing-result .top-right-buttons,
         body.showing-blank .top-right-buttons {
             display: none;
+        }
+
+        /* 在表单页面和管理员页面也显示右上角按钮 */
+        .form-page.show ~ .top-right-buttons,
+        .admin-login-page.show ~ .top-right-buttons,
+        .admin-panel.show ~ .top-right-buttons,
+        .success-page.show ~ .top-right-buttons {
+            display: flex !important;
+            z-index: 10003;
         }
 
         .top-right-btn {
@@ -1781,7 +1794,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9998;
+            z-index: 9990;
             background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
             padding: 20px;
             overflow-y: auto;
@@ -1897,7 +1910,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9999;
+            z-index: 9995;
             background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
             flex-direction: column;
             align-items: center;
@@ -1961,7 +1974,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9998;
+            z-index: 9990;
             background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
             flex-direction: column;
             align-items: center;
@@ -1982,7 +1995,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9998;
+            z-index: 9990;
             background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
             flex-direction: column;
             padding: 80px 20px 20px;
@@ -7297,8 +7310,16 @@
 
         // 问题反馈
         if (feedbackBtn) {
-            feedbackBtn.addEventListener('click', () => {
+            feedbackBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 feedbackPage.classList.add('show');
+                // 确保玻璃效果正确显示
+                setTimeout(() => {
+                    if (typeof initThemeDockLiquidGlass === 'function') {
+                        initThemeDockLiquidGlass();
+                    }
+                }, 100);
             });
         }
 
@@ -7337,8 +7358,16 @@
 
         // 积分兑换
         if (exchangeBtn) {
-            exchangeBtn.addEventListener('click', () => {
+            exchangeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 exchangePage.classList.add('show');
+                // 确保玻璃效果正确显示
+                setTimeout(() => {
+                    if (typeof initThemeDockLiquidGlass === 'function') {
+                        initThemeDockLiquidGlass();
+                    }
+                }, 100);
             });
         }
 
@@ -7391,8 +7420,16 @@
 
         // 管理员登录
         if (adminBtn) {
-            adminBtn.addEventListener('click', () => {
+            adminBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 adminLoginPage.classList.add('show');
+                // 确保玻璃效果正确显示
+                setTimeout(() => {
+                    if (typeof initThemeDockLiquidGlass === 'function') {
+                        initThemeDockLiquidGlass();
+                    }
+                }, 100);
             });
         }
 
@@ -7548,6 +7585,28 @@
         } else {
             initThemeGlassEffect();
         }
+
+        // 确保所有页面的深浅色切换玻璃渲染都正常
+        // 在显示表单页面时重新初始化玻璃效果
+        function ensureGlassEffectOnAllPages() {
+            // 为主题切换按钮添加MutationObserver，确保玻璃效果始终存在
+            const themeDockWrapper = document.getElementById('themeDockWrapper');
+            if (themeDockWrapper) {
+                // 确保玻璃效果在页面切换后仍然存在
+                setTimeout(() => {
+                    if (typeof initThemeDockLiquidGlass === 'function') {
+                        initThemeDockLiquidGlass();
+                    }
+                }, 50);
+            }
+        }
+
+        // 监听页面显示事件
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                ensureGlassEffectOnAllPages();
+            }
+        });
     </script>
 
     <!-- 问题反馈页面 -->
