@@ -369,6 +369,85 @@ def admin_score_change():
     
     return jsonify({"success": True, "message": "积分修改成功"})
 
+
+@app.route('/api/student/total-score/<name>')
+def get_student_total_score(name):
+    """获取学生总分和所有记录"""
+    # 获取最新一周的原始积分
+    latest_week = max(SCORE_DATA.keys(), key=lambda x: int(x))
+    base_data = SCORE_DATA[latest_week].get(name, {}).copy()
+    
+    if not base_data:
+        return jsonify({"error": "学生不存在"}), 404
+    
+    base_score = base_data.get('累计得分', 0)
+    
+    # 加载所有积分变动记录
+    changes = load_data(SCORE_CHANGES_FILE)
+    student_changes = [c for c in changes if c.get('name') == name]
+    
+    # 计算动态积分变动总和
+    dynamic_change = sum(c.get('change', 0) for c in student_changes)
+    
+    # 加载所有兑换记录
+    exchanges = load_data(EXCHANGE_FILE)
+    student_exchanges = [e for e in exchanges if e.get('name') == name]
+    
+    # 计算已通过兑换消耗的积分
+    exchange_deduction = sum(
+        e.get('points_needed', 0) 
+        for e in student_exchanges 
+        if e.get('status') == 'approved'
+    )
+    
+    # 最终总分
+    total_score = base_score + dynamic_change - exchange_deduction
+    
+    # 构建记录列表
+    records = []
+    
+    # 添加积分变动记录
+    for change in sorted(student_changes, key=lambda x: x.get('timestamp', ''), reverse=True):
+        records.append({
+            "type": "score_change",
+            "title": "积分变动" if change.get('change', 0) > 0 else "积分扣除",
+            "change": change.get('change', 0),
+            "reason": change.get('reason', '无原因'),
+            "timestamp": change.get('timestamp', ''),
+            "status": "已完成"
+        })
+    
+    # 添加兑换记录
+    for exchange in sorted(student_exchanges, key=lambda x: x.get('timestamp', ''), reverse=True):
+        status = exchange.get('status', 'pending')
+        status_text = {
+            'pending': '审核中',
+            'approved': '已通过',
+            'rejected': '已驳回'
+        }.get(status, '未知')
+        
+        records.append({
+            "type": "exchange",
+            "title": f"积分兑换：{exchange.get('item_name', '未知商品')}",
+            "change": -exchange.get('points_needed', 0),
+            "reason": f"价格：¥{exchange.get('price', 0)}",
+            "timestamp": exchange.get('timestamp', ''),
+            "status": status_text,
+            "status_code": status
+        })
+    
+    # 按时间排序
+    records.sort(key=lambda x: x.get('timestamp', ''), reverse=True)
+    
+    return jsonify({
+        "name": name,
+        "base_score": base_score,
+        "dynamic_change": dynamic_change,
+        "exchange_deduction": exchange_deduction,
+        "total_score": total_score,
+        "records": records
+    })
+
 @app.route('/api/admin/exchange/<exchange_id>/approve', methods=['POST'])
 @admin_required
 def approve_exchange(exchange_id):

@@ -2117,6 +2117,187 @@
             background: linear-gradient(135deg, #ff4d4f, #ff7875);
             color: white;
         }
+
+        /* 总分查询页面 */
+        .total-score-page {
+            display: flex;
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        html[data-theme="dark"] .total-score-page {
+            background: linear-gradient(135deg, #0a0f1f 0%, #121830 50%, #0d1326 100%);
+        }
+
+        .total-score-page.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .total-score-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .total-score-value {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4a90d9, #6b5ce7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .total-score-label {
+            font-size: 14px;
+            color: #6b7b9c;
+            margin-top: 8px;
+        }
+
+        html[data-theme="dark"] .total-score-label {
+            color: #a0aec0;
+        }
+
+        .score-breakdown {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .score-breakdown-item {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        html[data-theme="dark"] .score-breakdown-item {
+            background: rgba(30, 40, 70, 0.3);
+        }
+
+        .score-breakdown-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1d2b53;
+        }
+
+        html[data-theme="dark"] .score-breakdown-value {
+            color: #e8eefc;
+        }
+
+        .score-breakdown-label {
+            font-size: 12px;
+            color: #6b7b9c;
+            margin-top: 4px;
+        }
+
+        html[data-theme="dark"] .score-breakdown-label {
+            color: #a0aec0;
+        }
+
+        .records-list {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .record-item {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        html[data-theme="dark"] .record-item {
+            background: rgba(30, 40, 70, 0.3);
+        }
+
+        .record-info {
+            flex: 1;
+        }
+
+        .record-title {
+            font-weight: 600;
+            color: #1d2b53;
+            font-size: 14px;
+        }
+
+        html[data-theme="dark"] .record-title {
+            color: #e8eefc;
+        }
+
+        .record-reason {
+            font-size: 12px;
+            color: #6b7b9c;
+            margin-top: 4px;
+        }
+
+        html[data-theme="dark"] .record-reason {
+            color: #a0aec0;
+        }
+
+        .record-time {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .record-change {
+            font-size: 18px;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+
+        .record-change.positive {
+            color: #52c41a;
+        }
+
+        .record-change.negative {
+            color: #ff4d4f;
+        }
+
+        .record-status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .record-status.approved {
+            background: rgba(82, 196, 26, 0.15);
+            color: #52c41a;
+        }
+
+        .record-status.rejected {
+            background: rgba(255, 77, 79, 0.15);
+            color: #ff4d4f;
+        }
+
+        .record-status.pending {
+            background: rgba(250, 173, 20, 0.15);
+            color: #faad14;
+        }
+
+        .record-status.completed {
+            background: rgba(74, 144, 217, 0.15);
+            color: #4a90d9;
+        }
     </style>
 </head>
 <body>
@@ -7650,6 +7831,90 @@
         }
     }
 
+
+    // 查询总分功能
+    var totalScoreBtn = document.getElementById('totalScoreBtn');
+    var totalScorePage = document.getElementById('totalScorePage');
+    var totalScoreBackBtn = document.getElementById('totalScoreBackBtn');
+    
+    if (totalScoreBtn && totalScorePage) {
+        totalScoreBtn.addEventListener('click', async function() {
+            var name = document.getElementById('nameInput').value.trim();
+            if (!name) {
+                alert('请先输入姓名');
+                return;
+            }
+            
+            try {
+                var response = await fetch('/api/student/total-score/' + encodeURIComponent(name));
+                if (response.ok) {
+                    var data = await response.json();
+                    displayTotalScore(data);
+                    totalScorePage.classList.add('show');
+                } else {
+                    var error = await response.json();
+                    alert(error.error || '查询失败');
+                }
+            } catch (error) {
+                alert('网络错误，请重试');
+            }
+        });
+    }
+    
+    if (totalScoreBackBtn && totalScorePage) {
+        totalScoreBackBtn.addEventListener('click', function() {
+            totalScorePage.classList.remove('show');
+        });
+    }
+    
+    function displayTotalScore(data) {
+        // 显示总分
+        document.getElementById('totalScoreValue').textContent = data.total_score;
+        document.getElementById('baseScoreValue').textContent = data.base_score;
+        document.getElementById('dynamicChangeValue').textContent = (data.dynamic_change > 0 ? '+' : '') + data.dynamic_change;
+        document.getElementById('exchangeDeductionValue').textContent = '-' + data.exchange_deduction;
+        
+        // 显示记录列表
+        var recordsList = document.getElementById('recordsList');
+        if (data.records && data.records.length > 0) {
+            recordsList.innerHTML = data.records.map(function(record) {
+                var changeClass = record.change > 0 ? 'positive' : 'negative';
+                var changeText = (record.change > 0 ? '+' : '') + record.change;
+                
+                var statusClass = '';
+                var statusText = record.status || '已完成';
+                
+                if (record.status_code === 'approved' || record.status === '已通过') {
+                    statusClass = 'approved';
+                } else if (record.status_code === 'rejected' || record.status === '已驳回') {
+                    statusClass = 'rejected';
+                } else if (record.status_code === 'pending' || record.status === '审核中') {
+                    statusClass = 'pending';
+                } else {
+                    statusClass = 'completed';
+                }
+                
+                var timeText = '';
+                if (record.timestamp) {
+                    var date = new Date(record.timestamp);
+                    timeText = date.toLocaleString();
+                }
+                
+                return '<div class="record-item">' +
+                    '<div class="record-info">' +
+                        '<div class="record-title">' + record.title + '</div>' +
+                        '<div class="record-reason">' + record.reason + '</div>' +
+                        '<div class="record-time">' + timeText + '</div>' +
+                    '</div>' +
+                    '<div class="record-change ' + changeClass + '">' + changeText + '</div>' +
+                    '<div class="record-status ' + statusClass + '">' + statusText + '</div>' +
+                '</div>';
+            }).join('');
+        } else {
+            recordsList.innerHTML = '<p style="text-align:center;color:#6b7b9c;padding:20px;">暂无记录</p>';
+        }
+    }
+
     </script>
 
     <!-- 问题反馈页面 -->
@@ -7724,6 +7989,42 @@
             <div class="form-buttons">
                 <button class="form-btn secondary" id="adminLoginBackBtn">返回</button>
                 <button class="form-btn" id="adminLoginSubmitBtn">登录</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 总分查询页面 -->
+    <div class="total-score-page" id="totalScorePage">
+        <div class="form-container" style="width: 100%; max-width: 640px;">
+            <h2 class="form-title">当前总分详情</h2>
+            
+            <div class="total-score-header">
+                <div class="total-score-value" id="totalScoreValue">--</div>
+                <div class="total-score-label">当前总分</div>
+            </div>
+            
+            <div class="score-breakdown">
+                <div class="score-breakdown-item">
+                    <div class="score-breakdown-value" id="baseScoreValue">--</div>
+                    <div class="score-breakdown-label">基础积分</div>
+                </div>
+                <div class="score-breakdown-item">
+                    <div class="score-breakdown-value" id="dynamicChangeValue">--</div>
+                    <div class="score-breakdown-label">动态变动</div>
+                </div>
+                <div class="score-breakdown-item">
+                    <div class="score-breakdown-value" id="exchangeDeductionValue">--</div>
+                    <div class="score-breakdown-label">兑换扣除</div>
+                </div>
+            </div>
+            
+            <h3 style="font-size: 16px; color: #1d2b53; margin-bottom: 16px; text-align: center;">积分记录</h3>
+            <div class="records-list" id="recordsList">
+                <!-- 记录将在这里动态生成 -->
+            </div>
+            
+            <div class="form-buttons" style="margin-top: 24px;">
+                <button class="form-btn secondary" id="totalScoreBackBtn">返回</button>
             </div>
         </div>
     </div>
