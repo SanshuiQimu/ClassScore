@@ -1778,13 +1778,20 @@
 
         /* 表单页面样式 */
         .form-page {
-            display: none;
+            display: flex;
             position: fixed;
             inset: 0;
             z-index: 9998;
             background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
-            padding: 20px;
+            padding: 80px 20px 20px;
             overflow-y: auto;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         html[data-theme="dark"] .form-page {
@@ -1792,11 +1799,9 @@
         }
 
         .form-page.show {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 80px;
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
         .form-container {
@@ -1891,7 +1896,7 @@
 
         /* 成功页面 */
         .success-page {
-            display: none;
+            display: flex;
             position: fixed;
             inset: 0;
             z-index: 9999;
@@ -1899,6 +1904,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         html[data-theme="dark"] .success-page {
@@ -1906,7 +1915,9 @@
         }
 
         .success-page.show {
-            display: flex;
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
         }
 
         .checkmark {
@@ -1955,7 +1966,7 @@
 
         /* 管理员登录 */
         .admin-login-page {
-            display: none;
+            display: flex;
             position: fixed;
             inset: 0;
             z-index: 9998;
@@ -1964,6 +1975,10 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         html[data-theme="dark"] .admin-login-page {
@@ -1971,12 +1986,14 @@
         }
 
         .admin-login-page.show {
-            display: flex;
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
         /* 管理员后台 */
         .admin-panel {
-            display: none;
+            display: flex;
             position: fixed;
             inset: 0;
             z-index: 9998;
@@ -1984,6 +2001,10 @@
             flex-direction: column;
             padding: 80px 20px 20px;
             overflow-y: auto;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         html[data-theme="dark"] .admin-panel {
@@ -1991,7 +2012,9 @@
         }
 
         .admin-panel.show {
-            display: flex;
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
         .admin-tabs {
@@ -7310,8 +7333,7 @@
         // 问题反馈
         if (feedbackBtn && feedbackPage) {
             feedbackBtn.addEventListener('click', function() {
-                feedbackPage.style.display = 'flex';
-                setTimeout(function() { feedbackPage.classList.add('show'); }, 10);
+                feedbackPage.classList.add('show');
             });
         }
 
@@ -7319,7 +7341,6 @@
         if (feedbackBackBtn && feedbackPage) {
             feedbackBackBtn.addEventListener('click', function() {
                 feedbackPage.classList.remove('show');
-                setTimeout(function() { feedbackPage.style.display = 'none'; }, 300);
             });
         }
 
@@ -7361,8 +7382,7 @@
         // 积分兑换
         if (exchangeBtn && exchangePage) {
             exchangeBtn.addEventListener('click', function() {
-                exchangePage.style.display = 'flex';
-                setTimeout(function() { exchangePage.classList.add('show'); }, 10);
+                exchangePage.classList.add('show');
             });
         }
 
@@ -7370,7 +7390,6 @@
         if (exchangeBackBtn && exchangePage) {
             exchangeBackBtn.addEventListener('click', function() {
                 exchangePage.classList.remove('show');
-                setTimeout(function() { exchangePage.style.display = 'none'; }, 300);
             });
         }
 
@@ -7423,15 +7442,13 @@
         if (successBackBtn && successPage) {
             successBackBtn.addEventListener('click', function() {
                 successPage.classList.remove('show');
-                setTimeout(function() { successPage.style.display = 'none'; }, 300);
             });
         }
 
         // 管理员登录
         if (adminBtn && adminLoginPage) {
             adminBtn.addEventListener('click', function() {
-                adminLoginPage.style.display = 'flex';
-                setTimeout(function() { adminLoginPage.classList.add('show'); }, 10);
+                adminLoginPage.classList.add('show');
             });
         }
 
@@ -7439,7 +7456,6 @@
         if (adminLoginBackBtn && adminLoginPage) {
             adminLoginBackBtn.addEventListener('click', function() {
                 adminLoginPage.classList.remove('show');
-                setTimeout(function() { adminLoginPage.style.display = 'none'; }, 300);
             });
         }
 
@@ -7495,7 +7511,6 @@
             adminLogoutBtn.addEventListener('click', async function() {
                 await fetch('/api/admin/logout', { method: 'POST' });
                 adminPanel.classList.remove('show');
-                setTimeout(function() { adminPanel.style.display = 'none'; }, 300);
                 var adminUsername = document.getElementById('adminUsername');
                 var adminPassword = document.getElementById('adminPassword');
                 if (adminUsername) adminUsername.value = '';
