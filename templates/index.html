@@ -1719,33 +1719,15 @@
             position: fixed;
             top: max(14px, env(safe-area-inset-top));
             right: max(14px, env(safe-area-inset-right));
-            z-index: 99999 !important;
+            z-index: 10002;
             display: flex;
             gap: 10px;
             pointer-events: none;
         }
 
-        .top-right-buttons.always-show {
-            display: flex !important;
-        }
-
-        .top-right-btn {
-            pointer-events: auto !important;
-            cursor: pointer !important;
-        }
-
         body.showing-result .top-right-buttons,
         body.showing-blank .top-right-buttons {
             display: none;
-        }
-
-        /* 在表单页面和管理员页面也显示右上角按钮 */
-        .form-page.show ~ .top-right-buttons,
-        .admin-login-page.show ~ .top-right-buttons,
-        .admin-panel.show ~ .top-right-buttons,
-        .success-page.show ~ .top-right-buttons {
-            display: flex !important;
-            z-index: 10003;
         }
 
         .top-right-btn {
@@ -1799,7 +1781,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9990;
+            z-index: 9998;
             background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
             padding: 20px;
             overflow-y: auto;
@@ -1888,56 +1870,23 @@
             flex: 1;
             padding: 14px 24px;
             border: none;
-            border-radius: 16px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px) saturate(1.2);
-            -webkit-backdrop-filter: blur(12px) saturate(1.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.6);
-            color: #1d2b53;
-        }
-
-        html[data-theme="dark"] .form-btn {
-            background: rgba(30, 40, 70, 0.35);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.15);
-            color: #e8eefc;
-        }
-
-        .form-btn:hover {
-            transform: translateY(-2px) scale(1.02);
-            background: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.7);
-        }
-
-        html[data-theme="dark"] .form-btn:hover {
-            background: rgba(40, 55, 95, 0.45);
-        }
-
-        .form-btn.primary {
-            background: linear-gradient(135deg, rgba(74, 144, 217, 0.9), rgba(107, 92, 231, 0.9));
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #4a90d9, #6b5ce7);
             color: white;
-            box-shadow: 0 4px 16px rgba(74, 144, 217, 0.3),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.3);
-        }
-
-        .form-btn.primary:hover {
-            background: linear-gradient(135deg, rgba(74, 144, 217, 1), rgba(107, 92, 231, 1));
-            box-shadow: 0 6px 20px rgba(74, 144, 217, 0.4),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.4);
         }
 
         .form-btn.secondary {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.3);
+            color: #1d2b53;
         }
 
         html[data-theme="dark"] .form-btn.secondary {
-            background: rgba(30, 40, 70, 0.3);
+            background: rgba(30, 40, 70, 0.4);
+            color: #e8eefc;
         }
 
         /* 成功页面 */
@@ -1945,7 +1894,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9995;
+            z-index: 9999;
             background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
             flex-direction: column;
             align-items: center;
@@ -2009,7 +1958,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9990;
+            z-index: 9998;
             background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
             flex-direction: column;
             align-items: center;
@@ -2030,7 +1979,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9990;
+            z-index: 9998;
             background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
             flex-direction: column;
             padding: 80px 20px 20px;
@@ -2054,42 +2003,20 @@
         }
 
         .admin-tab {
-            padding: 14px 28px;
-            border-radius: 16px;
+            padding: 12px 24px;
+            border-radius: 14px;
             border: none;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px) saturate(1.2);
-            -webkit-backdrop-filter: blur(12px) saturate(1.2);
+            background: rgba(255, 255, 255, 0.3);
             color: #1d2b53;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.6);
-        }
-
-        html[data-theme="dark"] .admin-tab {
-            background: rgba(30, 40, 70, 0.35);
-            color: #e8eefc;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.15);
-        }
-
-        .admin-tab:hover {
-            transform: translateY(-2px) scale(1.05);
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        html[data-theme="dark"] .admin-tab:hover {
-            background: rgba(40, 55, 95, 0.45);
+            transition: all 0.3s ease;
         }
 
         .admin-tab.active {
-            background: linear-gradient(135deg, rgba(74, 144, 217, 0.9), rgba(107, 92, 231, 0.9));
+            background: linear-gradient(135deg, #4a90d9, #6b5ce7);
             color: white;
-            box-shadow: 0 6px 20px rgba(74, 144, 217, 0.3),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.3);
         }
 
         .admin-content {
@@ -2106,27 +2033,20 @@
         }
 
         .data-card {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px) saturate(1.2);
-            -webkit-backdrop-filter: blur(12px) saturate(1.2);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
         }
 
         html[data-theme="dark"] .data-card {
             background: rgba(30, 40, 70, 0.3);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.1);
         }
 
         .data-card-title {
-            font-weight: 700;
+            font-weight: 600;
             color: #1d2b53;
-            margin-bottom: 10px;
-            font-size: 15px;
+            margin-bottom: 8px;
         }
 
         html[data-theme="dark"] .data-card-title {
@@ -2136,7 +2056,6 @@
         .data-card-content {
             font-size: 14px;
             color: #2c3b66;
-            line-height: 1.5;
         }
 
         html[data-theme="dark"] .data-card-content {
@@ -2146,21 +2065,21 @@
         .data-card-time {
             font-size: 12px;
             color: #6b7b9c;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .data-card-actions {
             display: flex;
             gap: 10px;
-            margin-top: 14px;
+            margin-top: 12px;
         }
 
         .data-card-btn {
             flex: 1;
-            padding: 10px 16px;
-            border-radius: 12px;
+            padding: 8px 12px;
+            border-radius: 10px;
             border: none;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -2169,99 +2088,11 @@
         .data-card-btn.approve {
             background: linear-gradient(135deg, #52c41a, #73d13d);
             color: white;
-            box-shadow: 0 3px 10px rgba(82, 196, 26, 0.3);
-        }
-
-        .data-card-btn.approve:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 14px rgba(82, 196, 26, 0.4);
         }
 
         .data-card-btn.reject {
             background: linear-gradient(135deg, #ff4d4f, #ff7875);
             color: white;
-            box-shadow: 0 3px 10px rgba(255, 77, 79, 0.3);
-        }
-
-        .data-card-btn.reject:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 14px rgba(255, 77, 79, 0.4);
-        }
-
-        /* 提示弹窗样式 */
-        .alert-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            width: 85%;
-            max-width: 300px;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(30px) saturate(2);
-            -webkit-backdrop-filter: blur(30px) saturate(2);
-            border-radius: 24px;
-            padding: 28px 24px 24px;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            z-index: 10001;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        html[data-theme="dark"] .alert-modal {
-            background: rgba(45, 55, 85, 0.98);
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .alert-modal.show {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .alert-modal-title {
-            text-align: center;
-            font-size: 17px;
-            font-weight: 700;
-            color: #1d2b53;
-            margin-bottom: 12px;
-        }
-
-        html[data-theme="dark"] .alert-modal-title {
-            color: #e8eefc;
-        }
-
-        .alert-modal-content {
-            text-align: center;
-            font-size: 14px;
-            color: #6b7b9c;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        html[data-theme="dark"] .alert-modal-content {
-            color: #a0aec0;
-        }
-
-        .alert-modal-btn {
-            width: 100%;
-            padding: 14px 20px;
-            border-radius: 16px;
-            border: none;
-            background: linear-gradient(135deg, #ff4444, #ff6b6b);
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
-        }
-
-        .alert-modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(255, 68, 68, 0.4);
         }
     </style>
 </head>
@@ -2307,7 +2138,7 @@
 
 
     <!-- 启动更新公告弹窗 -->
-    <div class="notice-modal glass hide" id="noticeModal">
+    <div class="notice-modal glass" id="noticeModal">
         <h2 class="notice-title" id="noticeTitle">高一11班积分管理系统V1.0.4版本更新公告</h2>
         <div class="notice-content" id="noticeContent">
             1.新增查询选项：点击「立即查询」后，可选择「第 16 周积分」进行查询。<br>
@@ -2815,27 +2646,14 @@
       });
     }
 
-    let resizeTimeout = null;
-    let lastWidth = 0;
-    let lastHeight = 0;
     function resize() {
-      // 防抖处理：避免频繁触发重绘导致抖动
-      if (resizeTimeout) clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        const w = innerWidth;
-        const h = innerHeight;
-        // 只有当尺寸真正变化时才重绘
-        if (w === lastWidth && h === lastHeight) return;
-        lastWidth = w;
-        lastHeight = h;
-        const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-        canvas.width = Math.floor(w * dpr);
-        canvas.height = Math.floor(h * dpr);
-        canvas.style.width = `${w}px`;
-        canvas.style.height = `${h}px`;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        seedSpace();
-      }, 100);
+      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      canvas.width = Math.floor(innerWidth * dpr);
+      canvas.height = Math.floor(innerHeight * dpr);
+      canvas.style.width = `${innerWidth}px`;
+      canvas.style.height = `${innerHeight}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seedSpace();
     }
 
     function seedSpace() {
@@ -7478,381 +7296,7 @@
     });
 
 
-        // 右上角按钮功能
-        const feedbackBtn = document.getElementById('feedbackBtn');
-        const exchangeBtn = document.getElementById('exchangeBtn');
-        const adminBtn = document.getElementById('adminBtn');
-        const feedbackPage = document.getElementById('feedbackPage');
-        const exchangePage = document.getElementById('exchangePage');
-        const successPage = document.getElementById('successPage');
-        const adminLoginPage = document.getElementById('adminLoginPage');
-        const adminPanel = document.getElementById('adminPanel');
-
-        // 问题反馈
-        if (feedbackBtn) {
-            feedbackBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                feedbackPage.classList.add('show');
-                // 确保玻璃效果正确显示
-                setTimeout(() => {
-                    if (typeof initThemeDockLiquidGlass === 'function') {
-                        initThemeDockLiquidGlass();
-                    }
-                }, 100);
-            });
-        }
-
-        document.getElementById('feedbackBackBtn')?.addEventListener('click', () => {
-            feedbackPage.classList.remove('show');
-        });
-
-        document.getElementById('feedbackSubmitBtn')?.addEventListener('click', async () => {
-            const content = document.getElementById('feedbackContent').value.trim();
-            const name = document.getElementById('feedbackName').value.trim() || '匿名';
-            
-            if (!content) {
-                showAlert('提示', '请输入问题描述');
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/feedback', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ content, name })
-                });
-                
-                if (response.ok) {
-                    feedbackPage.classList.remove('show');
-                    successPage.classList.add('show');
-                    document.getElementById('feedbackContent').value = '';
-                    document.getElementById('feedbackName').value = '';
-                } else {
-                    showAlert('错误', '提交失败，请重试');
-                }
-            } catch (error) {
-                showAlert('错误', '提交失败，请检查网络');
-            }
-        });
-
-        // 积分兑换
-        if (exchangeBtn) {
-            exchangeBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                exchangePage.classList.add('show');
-                // 确保玻璃效果正确显示
-                setTimeout(() => {
-                    if (typeof initThemeDockLiquidGlass === 'function') {
-                        initThemeDockLiquidGlass();
-                    }
-                }, 100);
-            });
-        }
-
-        document.getElementById('exchangeBackBtn')?.addEventListener('click', () => {
-            exchangePage.classList.remove('show');
-        });
-
-        document.getElementById('exchangeSubmitBtn')?.addEventListener('click', async () => {
-            const itemLink = document.getElementById('exchangeLink').value.trim() || '无';
-            const itemName = document.getElementById('exchangeItemName').value.trim();
-            const price = parseFloat(document.getElementById('exchangePrice').value);
-            const name = document.getElementById('exchangeName').value.trim();
-            
-            if (!itemName || !price || !name) {
-                showAlert('提示', '请填写所有必填项');
-                return;
-            }
-
-            const pointsNeeded = price * 3;
-            if (!confirm(`确认提交？所需消耗积分：${pointsNeeded}`)) {
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/exchange', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ item_link: itemLink, item_name: itemName, price, name })
-                });
-                
-                if (response.ok) {
-                    exchangePage.classList.remove('show');
-                    successPage.classList.add('show');
-                    document.getElementById('exchangeLink').value = '';
-                    document.getElementById('exchangeItemName').value = '';
-                    document.getElementById('exchangePrice').value = '';
-                    document.getElementById('exchangeName').value = '';
-                } else {
-                    showAlert('错误', '提交失败，请重试');
-                }
-            } catch (error) {
-                showAlert('错误', '提交失败，请检查网络');
-            }
-        });
-
-        // 成功页面返回
-        document.getElementById('successBackBtn')?.addEventListener('click', () => {
-            successPage.classList.remove('show');
-        });
-
-        // 管理员登录
-        if (adminBtn) {
-            adminBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                adminLoginPage.classList.add('show');
-                // 确保玻璃效果正确显示
-                setTimeout(() => {
-                    if (typeof initThemeDockLiquidGlass === 'function') {
-                        initThemeDockLiquidGlass();
-                    }
-                }, 100);
-            });
-        }
-
-        document.getElementById('adminLoginBackBtn')?.addEventListener('click', () => {
-            adminLoginPage.classList.remove('show');
-        });
-
-        document.getElementById('adminLoginSubmitBtn')?.addEventListener('click', async () => {
-            const username = document.getElementById('adminUsername').value.trim();
-            const password = document.getElementById('adminPassword').value;
-            
-            if (!username || !password) {
-                showAlert('提示', '请输入账号和密码');
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/admin/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                
-                if (response.ok) {
-                    adminLoginPage.classList.remove('show');
-                    adminPanel.classList.add('show');
-                    loadAdminData();
-                } else {
-                    showAlert('错误', '账号或密码错误');
-                }
-            } catch (error) {
-                showAlert('错误', '登录失败，请检查网络');
-            }
-        });
-
-        // 管理员后台标签切换
-        document.querySelectorAll('.admin-tab[data-tab]').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
-                tab.classList.add('active');
-                document.getElementById(tab.dataset.tab + 'Section').classList.add('active');
-            });
-        });
-
-        // 管理员退出
-        document.getElementById('adminLogoutBtn')?.addEventListener('click', async () => {
-            await fetch('/api/admin/logout', { method: 'POST' });
-            adminPanel.classList.remove('show');
-            document.getElementById('adminUsername').value = '';
-            document.getElementById('adminPassword').value = '';
-        });
-
-
-        // 同意兑换
-        async function approveExchange(exchangeId) {
-            try {
-                const response = await fetch('/api/admin/exchange/' + exchangeId + '/approve', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                
-                if (response.ok) {
-                    showAlert('成功', '兑换已同意，积分已扣除', function() {
-                        loadAdminData();
-                    });
-                } else {
-                    const data = await response.json();
-                    showAlert('错误', data.error || '操作失败');
-                }
-            } catch (error) {
-                showAlert('错误', '网络错误，请重试');
-            }
-        }
-
-        // 驳回兑换
-        async function rejectExchange(exchangeId) {
-            const reason = prompt('请输入驳回原因（可选）：');
-            if (reason === null) return; // 用户取消
-            
-            try {
-                const response = await fetch('/api/admin/exchange/' + exchangeId + '/reject', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ reason: reason || '无原因' })
-                });
-                
-                if (response.ok) {
-                    showAlert('成功', '兑换已驳回', function() {
-                        loadAdminData();
-                    });
-                } else {
-                    const data = await response.json();
-                    showAlert('错误', data.error || '操作失败');
-                }
-            } catch (error) {
-                showAlert('错误', '网络错误，请重试');
-            }
-        }
-
-        // 检查用户是否有被驳回的兑换记录
-        async function checkRejectedExchanges(name) {
-            try {
-                const response = await fetch('/api/my-exchanges/' + encodeURIComponent(name));
-                if (response.ok) {
-                    const exchanges = await response.json();
-                    if (exchanges.length > 0) {
-                        // 显示第一条驳回记录
-                        const e = exchanges[0];
-                        showAlert('兑换被驳回', '您的兑换申请「' + e.item_name + '」已被驳回。原因：' + (e.reject_reason || '无原因'));
-                    }
-                }
-            } catch (error) {
-                console.error('检查驳回记录失败:', error);
-            }
-        }
-
-        // 加载管理员数据
-        async function loadAdminData() {
-            try {
-                // 加载问题反馈
-                const feedbackRes = await fetch('/api/admin/feedback');
-                if (feedbackRes.ok) {
-                    const feedbacks = await feedbackRes.json();
-                    const feedbackList = document.getElementById('feedbackList');
-                    feedbackList.innerHTML = feedbacks.map(f => `
-                        <div class="data-card">
-                            <div class="data-card-title">${f.name}</div>
-                            <div class="data-card-content">${f.content}</div>
-                            <div class="data-card-time">${new Date(f.timestamp).toLocaleString()}</div>
-                        </div>
-                    `).reverse().join('') || '<p style="text-align:center;color:#6b7b9c;">暂无数据</p>';
-                }
-
-                // 加载积分兑换
-                const exchangeRes = await fetch('/api/admin/exchange');
-                if (exchangeRes.ok) {
-                    const exchanges = await exchangeRes.json();
-                    const exchangeList = document.getElementById('exchangeList');
-                    exchangeList.innerHTML = exchanges.map(e => `
-                        <div class="data-card">
-                            <div class="data-card-title">${e.item_name} - ${e.name}</div>
-                            <div class="data-card-content">
-                                价格：¥${e.price} | 所需积分：${e.points_needed}<br>
-                                链接：${e.item_link}
-                            </div>
-                            <div class="data-card-time">${new Date(e.timestamp).toLocaleString()}</div>
-                        </div>
-                    `).reverse().join('') || '<p style="text-align:center;color:#6b7b9c;">暂无数据</p>';
-                }
-
-                // 加载积分变动记录
-                const scoreRes = await fetch('/api/admin/score-changes');
-                if (scoreRes.ok) {
-                    const changes = await scoreRes.json();
-                    const scoreChangeList = document.getElementById('scoreChangeList');
-                    scoreChangeList.innerHTML = changes.map(c => `
-                        <div class="data-card">
-                            <div class="data-card-title">${c.name} ${c.change > 0 ? '+' : ''}${c.change}</div>
-                            <div class="data-card-content">${c.reason || '无原因'}</div>
-                            <div class="data-card-time">${new Date(c.timestamp).toLocaleString()}</div>
-                        </div>
-                    `).reverse().join('') || '<p style="text-align:center;color:#6b7b9c;">暂无数据</p>';
-                }
-            } catch (error) {
-                console.error('加载数据失败:', error);
-            }
-        }
-
-        // 积分变动提交
-        document.getElementById('scoreChangeSubmitBtn')?.addEventListener('click', async () => {
-            const name = document.getElementById('scoreChangeName').value.trim();
-            const change = parseFloat(document.getElementById('scoreChangeValue').value);
-            const reason = document.getElementById('scoreChangeReason').value.trim();
-            
-            if (!name || isNaN(change)) {
-                showAlert('提示', '请填写姓名和积分变动');
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/admin/score-change', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, change, reason })
-                });
-                
-                if (response.ok) {
-                    showAlert('成功', '积分变动成功');
-                    document.getElementById('scoreChangeName').value = '';
-                    document.getElementById('scoreChangeValue').value = '';
-                    document.getElementById('scoreChangeReason').value = '';
-                    loadAdminData();
-                } else {
-                    showAlert('错误', '操作失败，请重试');
-                }
-            } catch (error) {
-                showAlert('错误', '操作失败，请检查网络');
-            }
-        });
-
-        // 修复深浅色切换玻璃效果 - 确保初始化时正确设置
-        function initThemeGlassEffect() {
-            const savedTheme = localStorage.getItem('site-theme');
-            if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
-                // 触发玻璃效果初始化
-                if (typeof initThemeDockLiquidGlass === 'function') {
-                    setTimeout(() => initThemeDockLiquidGlass(), 100);
-                }
-            }
-        }
-        
-        // 页面加载完成后初始化
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initThemeGlassEffect);
-        } else {
-            initThemeGlassEffect();
-        }
-
-        // 确保所有页面的深浅色切换玻璃渲染都正常
-        // 在显示表单页面时重新初始化玻璃效果
-        function ensureGlassEffectOnAllPages() {
-            // 为主题切换按钮添加MutationObserver，确保玻璃效果始终存在
-            const themeDockWrapper = document.getElementById('themeDockWrapper');
-            if (themeDockWrapper) {
-                // 确保玻璃效果在页面切换后仍然存在
-                setTimeout(() => {
-                    if (typeof initThemeDockLiquidGlass === 'function') {
-                        initThemeDockLiquidGlass();
-                    }
-                }, 50);
-            }
-        }
-
-        // 监听页面显示事件
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
-                ensureGlassEffectOnAllPages();
-            }
-        });
-
-    // 右上角按钮功能 - 在全局作用域中定义
+    // 右上角按钮功能
     document.addEventListener('DOMContentLoaded', function() {
         const feedbackBtn = document.getElementById('feedbackBtn');
         const exchangeBtn = document.getElementById('exchangeBtn');
@@ -7863,25 +7307,19 @@
         const adminLoginPage = document.getElementById('adminLoginPage');
         const adminPanel = document.getElementById('adminPanel');
 
-        console.log('Button elements:', { feedbackBtn, exchangeBtn, adminBtn });
-        console.log('Page elements:', { feedbackPage, exchangePage, adminLoginPage });
-
         // 问题反馈
-        if (feedbackBtn) {
-            feedbackBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Feedback button clicked');
-                if (feedbackPage) {
-                    feedbackPage.classList.add('show');
-                }
+        if (feedbackBtn && feedbackPage) {
+            feedbackBtn.addEventListener('click', function() {
+                feedbackPage.style.display = 'flex';
+                setTimeout(function() { feedbackPage.classList.add('show'); }, 10);
             });
         }
 
         const feedbackBackBtn = document.getElementById('feedbackBackBtn');
-        if (feedbackBackBtn) {
+        if (feedbackBackBtn && feedbackPage) {
             feedbackBackBtn.addEventListener('click', function() {
-                if (feedbackPage) feedbackPage.classList.remove('show');
+                feedbackPage.classList.remove('show');
+                setTimeout(function() { feedbackPage.style.display = 'none'; }, 300);
             });
         }
 
@@ -7892,7 +7330,7 @@
                 const name = document.getElementById('feedbackName').value.trim() || '匿名';
                 
                 if (!content) {
-                    showAlert('提示', '请输入问题描述');
+                    alert('请输入问题描述');
                     return;
                 }
 
@@ -7900,39 +7338,39 @@
                     const response = await fetch('/api/feedback', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ content, name })
+                        body: JSON.stringify({ content: content, name: name })
                     });
                     
                     if (response.ok) {
                         if (feedbackPage) feedbackPage.classList.remove('show');
-                        if (successPage) successPage.classList.add('show');
+                        if (successPage) {
+                            successPage.style.display = 'flex';
+                            successPage.classList.add('show');
+                        }
                         document.getElementById('feedbackContent').value = '';
                         document.getElementById('feedbackName').value = '';
                     } else {
-                        showAlert('错误', '提交失败，请重试');
+                        alert('提交失败，请重试');
                     }
                 } catch (error) {
-                    showAlert('错误', '提交失败，请检查网络');
+                    alert('提交失败，请检查网络');
                 }
             });
         }
 
         // 积分兑换
-        if (exchangeBtn) {
-            exchangeBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Exchange button clicked');
-                if (exchangePage) {
-                    exchangePage.classList.add('show');
-                }
+        if (exchangeBtn && exchangePage) {
+            exchangeBtn.addEventListener('click', function() {
+                exchangePage.style.display = 'flex';
+                setTimeout(function() { exchangePage.classList.add('show'); }, 10);
             });
         }
 
         const exchangeBackBtn = document.getElementById('exchangeBackBtn');
-        if (exchangeBackBtn) {
+        if (exchangeBackBtn && exchangePage) {
             exchangeBackBtn.addEventListener('click', function() {
-                if (exchangePage) exchangePage.classList.remove('show');
+                exchangePage.classList.remove('show');
+                setTimeout(function() { exchangePage.style.display = 'none'; }, 300);
             });
         }
 
@@ -7945,7 +7383,7 @@
                 const name = document.getElementById('exchangeName').value.trim();
                 
                 if (!itemName || !price || !name) {
-                    showAlert('提示', '请填写所有必填项');
+                    alert('请填写所有必填项');
                     return;
                 }
 
@@ -7963,44 +7401,45 @@
                     
                     if (response.ok) {
                         if (exchangePage) exchangePage.classList.remove('show');
-                        if (successPage) successPage.classList.add('show');
+                        if (successPage) {
+                            successPage.style.display = 'flex';
+                            successPage.classList.add('show');
+                        }
                         document.getElementById('exchangeLink').value = '';
                         document.getElementById('exchangeItemName').value = '';
                         document.getElementById('exchangePrice').value = '';
                         document.getElementById('exchangeName').value = '';
                     } else {
-                        showAlert('错误', '提交失败，请重试');
+                        alert('提交失败，请重试');
                     }
                 } catch (error) {
-                    showAlert('错误', '提交失败，请检查网络');
+                    alert('提交失败，请检查网络');
                 }
             });
         }
 
-        // 提交成功页面返回
+        // 成功页面返回
         const successBackBtn = document.getElementById('successBackBtn');
-        if (successBackBtn) {
+        if (successBackBtn && successPage) {
             successBackBtn.addEventListener('click', function() {
-                if (successPage) successPage.classList.remove('show');
+                successPage.classList.remove('show');
+                setTimeout(function() { successPage.style.display = 'none'; }, 300);
             });
         }
 
         // 管理员登录
-        if (adminBtn) {
-            adminBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Admin button clicked');
-                if (adminLoginPage) {
-                    adminLoginPage.classList.add('show');
-                }
+        if (adminBtn && adminLoginPage) {
+            adminBtn.addEventListener('click', function() {
+                adminLoginPage.style.display = 'flex';
+                setTimeout(function() { adminLoginPage.classList.add('show'); }, 10);
             });
         }
 
         const adminLoginBackBtn = document.getElementById('adminLoginBackBtn');
-        if (adminLoginBackBtn) {
+        if (adminLoginBackBtn && adminLoginPage) {
             adminLoginBackBtn.addEventListener('click', function() {
-                if (adminLoginPage) adminLoginPage.classList.remove('show');
+                adminLoginPage.classList.remove('show');
+                setTimeout(function() { adminLoginPage.style.display = 'none'; }, 300);
             });
         }
 
@@ -8011,7 +7450,7 @@
                 const password = document.getElementById('adminPassword').value;
                 
                 if (!username || !password) {
-                    showAlert('提示', '请输入账号和密码');
+                    alert('请输入账号和密码');
                     return;
                 }
 
@@ -8024,13 +7463,16 @@
                     
                     if (response.ok) {
                         if (adminLoginPage) adminLoginPage.classList.remove('show');
-                        if (adminPanel) adminPanel.classList.add('show');
+                        if (adminPanel) {
+                            adminPanel.style.display = 'flex';
+                            adminPanel.classList.add('show');
+                        }
                         loadAdminData();
                     } else {
-                        showAlert('错误', '账号或密码错误');
+                        alert('账号或密码错误');
                     }
                 } catch (error) {
-                    showAlert('错误', '登录失败，请检查网络');
+                    alert('登录失败，请检查网络');
                 }
             });
         }
@@ -8041,115 +7483,24 @@
                 document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
                 document.querySelectorAll('.admin-section').forEach(function(s) { s.classList.remove('active'); });
                 tab.classList.add('active');
-                const sectionId = tab.dataset.tab + 'Section';
-                const section = document.getElementById(sectionId);
+                var sectionId = tab.dataset.tab + 'Section';
+                var section = document.getElementById(sectionId);
                 if (section) section.classList.add('active');
             });
         });
 
         // 管理员退出
         const adminLogoutBtn = document.getElementById('adminLogoutBtn');
-        if (adminLogoutBtn) {
+        if (adminLogoutBtn && adminPanel) {
             adminLogoutBtn.addEventListener('click', async function() {
                 await fetch('/api/admin/logout', { method: 'POST' });
-                if (adminPanel) adminPanel.classList.remove('show');
-                const adminUsername = document.getElementById('adminUsername');
-                const adminPassword = document.getElementById('adminPassword');
+                adminPanel.classList.remove('show');
+                setTimeout(function() { adminPanel.style.display = 'none'; }, 300);
+                var adminUsername = document.getElementById('adminUsername');
+                var adminPassword = document.getElementById('adminPassword');
                 if (adminUsername) adminUsername.value = '';
                 if (adminPassword) adminPassword.value = '';
             });
-        }
-
-        // 提示弹窗函数
-        function showAlert(title, content, callback) {
-            const alertOverlay = document.getElementById('alertOverlay');
-            const alertModal = document.getElementById('alertModal');
-            const alertTitle = document.getElementById('alertTitle');
-            const alertContent = document.getElementById('alertContent');
-            const alertBtn = document.getElementById('alertBtn');
-            
-            if (alertTitle) alertTitle.textContent = title;
-            if (alertContent) alertContent.textContent = content;
-            
-            if (alertOverlay) alertOverlay.classList.add('show');
-            if (alertModal) alertModal.classList.add('show');
-            
-            const closeAlert = function() {
-                if (alertOverlay) alertOverlay.classList.remove('show');
-                if (alertModal) alertModal.classList.remove('show');
-                if (callback) callback();
-            };
-            
-            if (alertBtn) {
-                alertBtn.onclick = closeAlert;
-            }
-            if (alertOverlay) {
-                alertOverlay.onclick = closeAlert;
-            }
-        }
-
-
-        // 同意兑换
-        async function approveExchange(exchangeId) {
-            try {
-                const response = await fetch('/api/admin/exchange/' + exchangeId + '/approve', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                
-                if (response.ok) {
-                    showAlert('成功', '兑换已同意，积分已扣除', function() {
-                        loadAdminData();
-                    });
-                } else {
-                    const data = await response.json();
-                    showAlert('错误', data.error || '操作失败');
-                }
-            } catch (error) {
-                showAlert('错误', '网络错误，请重试');
-            }
-        }
-
-        // 驳回兑换
-        async function rejectExchange(exchangeId) {
-            const reason = prompt('请输入驳回原因（可选）：');
-            if (reason === null) return; // 用户取消
-            
-            try {
-                const response = await fetch('/api/admin/exchange/' + exchangeId + '/reject', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ reason: reason || '无原因' })
-                });
-                
-                if (response.ok) {
-                    showAlert('成功', '兑换已驳回', function() {
-                        loadAdminData();
-                    });
-                } else {
-                    const data = await response.json();
-                    showAlert('错误', data.error || '操作失败');
-                }
-            } catch (error) {
-                showAlert('错误', '网络错误，请重试');
-            }
-        }
-
-        // 检查用户是否有被驳回的兑换记录
-        async function checkRejectedExchanges(name) {
-            try {
-                const response = await fetch('/api/my-exchanges/' + encodeURIComponent(name));
-                if (response.ok) {
-                    const exchanges = await response.json();
-                    if (exchanges.length > 0) {
-                        // 显示第一条驳回记录
-                        const e = exchanges[0];
-                        showAlert('兑换被驳回', '您的兑换申请「' + e.item_name + '」已被驳回。原因：' + (e.reject_reason || '无原因'));
-                    }
-                }
-            } catch (error) {
-                console.error('检查驳回记录失败:', error);
-            }
         }
 
         // 加载管理员数据
@@ -8176,7 +7527,7 @@
                         exchangeList.innerHTML = exchanges.map(function(e) {
                             var statusText = '';
                             var actionButtons = '';
-                            if (e.status === 'pending') {
+                            if (e.status === 'pending' || !e.status) {
                                 actionButtons = '<div class="data-card-actions"><button class="data-card-btn approve" onclick="approveExchange('' + e.id + '')">同意兑换</button><button class="data-card-btn reject" onclick="rejectExchange('' + e.id + '')">驳回兑换</button></div>';
                             } else if (e.status === 'approved') {
                                 statusText = '<span style="color:#52c41a;">[已同意]</span> ';
@@ -8213,7 +7564,7 @@
                 const reason = document.getElementById('scoreChangeReason').value.trim();
                 
                 if (!name || isNaN(change)) {
-                    showAlert('提示', '请填写姓名和积分变动');
+                    alert('请填写姓名和积分变动');
                     return;
                 }
 
@@ -8225,125 +7576,73 @@
                     });
                     
                     if (response.ok) {
-                        showAlert('成功', '积分变动成功');
+                        alert('积分变动成功');
                         document.getElementById('scoreChangeName').value = '';
                         document.getElementById('scoreChangeValue').value = '';
                         document.getElementById('scoreChangeReason').value = '';
                         loadAdminData();
                     } else {
-                        showAlert('错误', '操作失败，请重试');
+                        alert('操作失败，请重试');
                     }
                 } catch (error) {
-                    showAlert('错误', '操作失败，请检查网络');
+                    alert('操作失败，请检查网络');
                 }
             });
         }
     });
 
-    // 修复深浅色切换玻璃效果
-    function initThemeGlassEffect() {
-        const savedTheme = localStorage.getItem('site-theme');
-        if (savedTheme) {
-            document.documentElement.setAttribute('data-theme', savedTheme);
+    // 同意兑换
+    async function approveExchange(exchangeId) {
+        try {
+            const response = await fetch('/api/admin/exchange/' + exchangeId + '/approve', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            if (response.ok) {
+                alert('兑换已同意，积分已扣除');
+                // 重新加载数据
+                const adminPanel = document.getElementById('adminPanel');
+                if (adminPanel && adminPanel.classList.contains('show')) {
+                    const event = new Event('load');
+                    window.dispatchEvent(event);
+                }
+            } else {
+                const data = await response.json();
+                alert(data.error || '操作失败');
+            }
+        } catch (error) {
+            alert('网络错误，请重试');
         }
     }
-    
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initThemeGlassEffect);
-    } else {
-        initThemeGlassEffect();
+
+    // 驳回兑换
+    async function rejectExchange(exchangeId) {
+        const reason = prompt('请输入驳回原因（可选）：');
+        if (reason === null) return;
+        
+        try {
+            const response = await fetch('/api/admin/exchange/' + exchangeId + '/reject', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reason: reason || '无原因' })
+            });
+            
+            if (response.ok) {
+                alert('兑换已驳回');
+                const adminPanel = document.getElementById('adminPanel');
+                if (adminPanel && adminPanel.classList.contains('show')) {
+                    const event = new Event('load');
+                    window.dispatchEvent(event);
+                }
+            } else {
+                const data = await response.json();
+                alert(data.error || '操作失败');
+            }
+        } catch (error) {
+            alert('网络错误，请重试');
+        }
     }
-
-
-    // 强制初始化所有功能
-    window.addEventListener('load', function() {
-        console.log('Window loaded, forcing init...');
-        
-        // 强制显示左上角按钮
-        const homeBtn = document.getElementById('homeLiquidButton');
-        if (homeBtn) {
-            homeBtn.classList.remove('is-hidden');
-            homeBtn.style.opacity = '1';
-            homeBtn.style.pointerEvents = 'auto';
-            homeBtn.style.transform = 'scale(1)';
-            console.log('Home button forced visible');
-        }
-        
-        // 显示更新公告弹窗
-        const noticeModal = document.getElementById('noticeModal');
-        const savedVersion = localStorage.getItem('noticeVersion');
-        if (noticeModal && savedVersion !== 'v1.0.4') {
-            noticeModal.classList.remove('hide');
-            noticeModal.style.display = 'block';
-            console.log('Notice modal shown');
-        }
-        
-        // 初始化主题切换dock
-        if (typeof initThemeDockLiquidGlass === 'function') {
-            initThemeDockLiquidGlass();
-        }
-        if (typeof initThemeDockInteraction === 'function') {
-            initThemeDockInteraction();
-        }
-        
-        // 重新绑定右上角按钮事件
-        const feedbackBtn = document.getElementById('feedbackBtn');
-        const exchangeBtn = document.getElementById('exchangeBtn');
-        const adminBtn = document.getElementById('adminBtn');
-        const feedbackPage = document.getElementById('feedbackPage');
-        const exchangePage = document.getElementById('exchangePage');
-        const adminLoginPage = document.getElementById('adminLoginPage');
-        
-        function showFeedbackPage() {
-            console.log('Feedback clicked');
-            if (feedbackPage) {
-                feedbackPage.style.display = 'flex';
-                setTimeout(function() { feedbackPage.classList.add('show'); }, 10);
-            }
-            return false;
-        }
-        
-        function showExchangePage() {
-            console.log('Exchange clicked');
-            if (exchangePage) {
-                exchangePage.style.display = 'flex';
-                setTimeout(function() { exchangePage.classList.add('show'); }, 10);
-            }
-            return false;
-        }
-        
-        function showAdminPage() {
-            console.log('Admin clicked');
-            if (adminLoginPage) {
-                adminLoginPage.style.display = 'flex';
-                setTimeout(function() { adminLoginPage.classList.add('show'); }, 10);
-            }
-            return false;
-        }
-        
-        if (feedbackBtn) {
-            feedbackBtn.onclick = showFeedbackPage;
-            feedbackBtn.addEventListener('touchstart', showFeedbackPage, {passive: false});
-        }
-        
-        if (exchangeBtn) {
-            exchangeBtn.onclick = showExchangePage;
-            exchangeBtn.addEventListener('touchstart', showExchangePage, {passive: false});
-        }
-        
-        if (adminBtn) {
-            adminBtn.onclick = showAdminPage;
-            adminBtn.addEventListener('touchstart', showAdminPage, {passive: false});
-        }
-        
-        // 初始化主题切换
-        const savedTheme = localStorage.getItem('site-theme');
-        if (savedTheme) {
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        }
-        
-        console.log('Force init complete');
-    });
 
     </script>
 
@@ -8361,7 +7660,7 @@
             </div>
             <div class="form-buttons">
                 <button class="form-btn secondary" id="feedbackBackBtn">返回</button>
-                <button class="form-btn primary" id="feedbackSubmitBtn">提交</button>
+                <button class="form-btn" id="feedbackSubmitBtn">提交</button>
             </div>
         </div>
     </div>
@@ -8388,7 +7687,7 @@
             </div>
             <div class="form-buttons">
                 <button class="form-btn secondary" id="exchangeBackBtn">返回</button>
-                <button class="form-btn primary" id="exchangeSubmitBtn">提交</button>
+                <button class="form-btn" id="exchangeSubmitBtn">提交</button>
             </div>
         </div>
     </div>
@@ -8401,7 +7700,7 @@
             </svg>
         </div>
         <div class="success-text">提交成功！</div>
-        <button class="form-btn primary" id="successBackBtn" style="width: 120px; padding: 10px 20px; font-size: 14px;">返回</button>
+        <button class="form-btn" id="successBackBtn" style="width: 120px; padding: 10px 20px; font-size: 14px;">返回</button>
     </div>
 
     <!-- 管理员登录页面 -->
@@ -8418,7 +7717,7 @@
             </div>
             <div class="form-buttons">
                 <button class="form-btn secondary" id="adminLoginBackBtn">返回</button>
-                <button class="form-btn primary" id="adminLoginSubmitBtn">登录</button>
+                <button class="form-btn" id="adminLoginSubmitBtn">登录</button>
             </div>
         </div>
     </div>
@@ -8451,18 +7750,10 @@
                     <label class="form-label">变动原因</label>
                     <input type="text" class="form-input" id="scoreChangeReason" placeholder="请输入原因">
                 </div>
-                <button class="form-btn primary" id="scoreChangeSubmitBtn" style="width: 100%;">提交变动</button>
+                <button class="form-btn" id="scoreChangeSubmitBtn" style="width: 100%;">提交变动</button>
                 <div id="scoreChangeList" style="margin-top: 20px;"></div>
             </div>
         </div>
-    </div>
-
-    <!-- 提示弹窗 -->
-    <div class="modal-overlay" id="alertOverlay" style="z-index: 10000;"></div>
-    <div class="alert-modal" id="alertModal">
-        <div class="alert-modal-title" id="alertTitle">提示</div>
-        <div class="alert-modal-content" id="alertContent"></div>
-        <button class="alert-modal-btn" id="alertBtn">好</button>
     </div>
 
 </body>
