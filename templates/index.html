@@ -1772,7 +1772,7 @@
 
         .top-right-btn .label {
             font-size: 10px;
-            font-weight: 600;
+            font-weight: 800;
             margin-top: 2px;
         }
 
@@ -7298,14 +7298,14 @@
 
     // 右上角按钮功能
     document.addEventListener('DOMContentLoaded', function() {
-        const feedbackBtn = document.getElementById('feedbackBtn');
-        const exchangeBtn = document.getElementById('exchangeBtn');
-        const adminBtn = document.getElementById('adminBtn');
-        const feedbackPage = document.getElementById('feedbackPage');
-        const exchangePage = document.getElementById('exchangePage');
-        const successPage = document.getElementById('successPage');
-        const adminLoginPage = document.getElementById('adminLoginPage');
-        const adminPanel = document.getElementById('adminPanel');
+        var feedbackBtn = document.getElementById('feedbackBtn');
+        var exchangeBtn = document.getElementById('exchangeBtn');
+        var adminBtn = document.getElementById('adminBtn');
+        var feedbackPage = document.getElementById('feedbackPage');
+        var exchangePage = document.getElementById('exchangePage');
+        var successPage = document.getElementById('successPage');
+        var adminLoginPage = document.getElementById('adminLoginPage');
+        var adminPanel = document.getElementById('adminPanel');
 
         // 问题反馈
         if (feedbackBtn && feedbackPage) {
@@ -7315,7 +7315,7 @@
             });
         }
 
-        const feedbackBackBtn = document.getElementById('feedbackBackBtn');
+        var feedbackBackBtn = document.getElementById('feedbackBackBtn');
         if (feedbackBackBtn && feedbackPage) {
             feedbackBackBtn.addEventListener('click', function() {
                 feedbackPage.classList.remove('show');
@@ -7323,11 +7323,11 @@
             });
         }
 
-        const feedbackSubmitBtn = document.getElementById('feedbackSubmitBtn');
+        var feedbackSubmitBtn = document.getElementById('feedbackSubmitBtn');
         if (feedbackSubmitBtn) {
             feedbackSubmitBtn.addEventListener('click', async function() {
-                const content = document.getElementById('feedbackContent').value.trim();
-                const name = document.getElementById('feedbackName').value.trim() || '匿名';
+                var content = document.getElementById('feedbackContent').value.trim();
+                var name = document.getElementById('feedbackName').value.trim() || '匿名';
                 
                 if (!content) {
                     alert('请输入问题描述');
@@ -7335,7 +7335,7 @@
                 }
 
                 try {
-                    const response = await fetch('/api/feedback', {
+                    var response = await fetch('/api/feedback', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ content: content, name: name })
@@ -7366,7 +7366,7 @@
             });
         }
 
-        const exchangeBackBtn = document.getElementById('exchangeBackBtn');
+        var exchangeBackBtn = document.getElementById('exchangeBackBtn');
         if (exchangeBackBtn && exchangePage) {
             exchangeBackBtn.addEventListener('click', function() {
                 exchangePage.classList.remove('show');
@@ -7374,26 +7374,26 @@
             });
         }
 
-        const exchangeSubmitBtn = document.getElementById('exchangeSubmitBtn');
+        var exchangeSubmitBtn = document.getElementById('exchangeSubmitBtn');
         if (exchangeSubmitBtn) {
             exchangeSubmitBtn.addEventListener('click', async function() {
-                const itemLink = document.getElementById('exchangeLink').value.trim() || '无';
-                const itemName = document.getElementById('exchangeItemName').value.trim();
-                const price = parseFloat(document.getElementById('exchangePrice').value);
-                const name = document.getElementById('exchangeName').value.trim();
+                var itemLink = document.getElementById('exchangeLink').value.trim() || '无';
+                var itemName = document.getElementById('exchangeItemName').value.trim();
+                var price = parseFloat(document.getElementById('exchangePrice').value);
+                var name = document.getElementById('exchangeName').value.trim();
                 
                 if (!itemName || !price || !name) {
                     alert('请填写所有必填项');
                     return;
                 }
 
-                const pointsNeeded = price * 3;
+                var pointsNeeded = price * 3;
                 if (!confirm('确认提交？所需消耗积分：' + pointsNeeded)) {
                     return;
                 }
 
                 try {
-                    const response = await fetch('/api/exchange', {
+                    var response = await fetch('/api/exchange', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ item_link: itemLink, item_name: itemName, price: price, name: name })
@@ -7419,7 +7419,7 @@
         }
 
         // 成功页面返回
-        const successBackBtn = document.getElementById('successBackBtn');
+        var successBackBtn = document.getElementById('successBackBtn');
         if (successBackBtn && successPage) {
             successBackBtn.addEventListener('click', function() {
                 successPage.classList.remove('show');
@@ -7435,7 +7435,7 @@
             });
         }
 
-        const adminLoginBackBtn = document.getElementById('adminLoginBackBtn');
+        var adminLoginBackBtn = document.getElementById('adminLoginBackBtn');
         if (adminLoginBackBtn && adminLoginPage) {
             adminLoginBackBtn.addEventListener('click', function() {
                 adminLoginPage.classList.remove('show');
@@ -7443,11 +7443,11 @@
             });
         }
 
-        const adminLoginSubmitBtn = document.getElementById('adminLoginSubmitBtn');
+        var adminLoginSubmitBtn = document.getElementById('adminLoginSubmitBtn');
         if (adminLoginSubmitBtn) {
             adminLoginSubmitBtn.addEventListener('click', async function() {
-                const username = document.getElementById('adminUsername').value.trim();
-                const password = document.getElementById('adminPassword').value;
+                var username = document.getElementById('adminUsername').value.trim();
+                var password = document.getElementById('adminPassword').value;
                 
                 if (!username || !password) {
                     alert('请输入账号和密码');
@@ -7455,7 +7455,7 @@
                 }
 
                 try {
-                    const response = await fetch('/api/admin/login', {
+                    var response = await fetch('/api/admin/login', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ username: username, password: password })
@@ -7490,7 +7490,7 @@
         });
 
         // 管理员退出
-        const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+        var adminLogoutBtn = document.getElementById('adminLogoutBtn');
         if (adminLogoutBtn && adminPanel) {
             adminLogoutBtn.addEventListener('click', async function() {
                 await fetch('/api/admin/logout', { method: 'POST' });
@@ -7507,10 +7507,10 @@
         async function loadAdminData() {
             try {
                 // 加载问题反馈
-                const feedbackRes = await fetch('/api/admin/feedback');
+                var feedbackRes = await fetch('/api/admin/feedback');
                 if (feedbackRes.ok) {
-                    const feedbacks = await feedbackRes.json();
-                    const feedbackList = document.getElementById('feedbackList');
+                    var feedbacks = await feedbackRes.json();
+                    var feedbackList = document.getElementById('feedbackList');
                     if (feedbackList) {
                         feedbackList.innerHTML = feedbacks.map(function(f) {
                             return '<div class="data-card"><div class="data-card-title">' + f.name + '</div><div class="data-card-content">' + f.content + '</div><div class="data-card-time">' + new Date(f.timestamp).toLocaleString() + '</div></div>';
@@ -7519,10 +7519,10 @@
                 }
 
                 // 加载积分兑换
-                const exchangeRes = await fetch('/api/admin/exchange');
+                var exchangeRes = await fetch('/api/admin/exchange');
                 if (exchangeRes.ok) {
-                    const exchanges = await exchangeRes.json();
-                    const exchangeList = document.getElementById('exchangeList');
+                    var exchanges = await exchangeRes.json();
+                    var exchangeList = document.getElementById('exchangeList');
                     if (exchangeList) {
                         exchangeList.innerHTML = exchanges.map(function(e) {
                             var statusText = '';
@@ -7540,10 +7540,10 @@
                 }
 
                 // 加载积分变动记录
-                const scoreRes = await fetch('/api/admin/score-changes');
+                var scoreRes = await fetch('/api/admin/score-changes');
                 if (scoreRes.ok) {
-                    const changes = await scoreRes.json();
-                    const scoreChangeList = document.getElementById('scoreChangeList');
+                    var changes = await scoreRes.json();
+                    var scoreChangeList = document.getElementById('scoreChangeList');
                     if (scoreChangeList) {
                         scoreChangeList.innerHTML = changes.map(function(c) {
                             return '<div class="data-card"><div class="data-card-title">' + c.name + ' ' + (c.change > 0 ? '+' : '') + c.change + '</div><div class="data-card-content">' + (c.reason || '无原因') + '</div><div class="data-card-time">' + new Date(c.timestamp).toLocaleString() + '</div></div>';
@@ -7556,12 +7556,12 @@
         }
 
         // 积分变动提交
-        const scoreChangeSubmitBtn = document.getElementById('scoreChangeSubmitBtn');
+        var scoreChangeSubmitBtn = document.getElementById('scoreChangeSubmitBtn');
         if (scoreChangeSubmitBtn) {
             scoreChangeSubmitBtn.addEventListener('click', async function() {
-                const name = document.getElementById('scoreChangeName').value.trim();
-                const change = parseFloat(document.getElementById('scoreChangeValue').value);
-                const reason = document.getElementById('scoreChangeReason').value.trim();
+                var name = document.getElementById('scoreChangeName').value.trim();
+                var change = parseFloat(document.getElementById('scoreChangeValue').value);
+                var reason = document.getElementById('scoreChangeReason').value.trim();
                 
                 if (!name || isNaN(change)) {
                     alert('请填写姓名和积分变动');
@@ -7569,7 +7569,7 @@
                 }
 
                 try {
-                    const response = await fetch('/api/admin/score-change', {
+                    var response = await fetch('/api/admin/score-change', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ name: name, change: change, reason: reason })
@@ -7594,21 +7594,16 @@
     // 同意兑换
     async function approveExchange(exchangeId) {
         try {
-            const response = await fetch('/api/admin/exchange/' + exchangeId + '/approve', {
+            var response = await fetch('/api/admin/exchange/' + exchangeId + '/approve', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
             });
             
             if (response.ok) {
                 alert('兑换已同意，积分已扣除');
-                // 重新加载数据
-                const adminPanel = document.getElementById('adminPanel');
-                if (adminPanel && adminPanel.classList.contains('show')) {
-                    const event = new Event('load');
-                    window.dispatchEvent(event);
-                }
+                location.reload();
             } else {
-                const data = await response.json();
+                var data = await response.json();
                 alert(data.error || '操作失败');
             }
         } catch (error) {
@@ -7618,11 +7613,11 @@
 
     // 驳回兑换
     async function rejectExchange(exchangeId) {
-        const reason = prompt('请输入驳回原因（可选）：');
+        var reason = prompt('请输入驳回原因（可选）：');
         if (reason === null) return;
         
         try {
-            const response = await fetch('/api/admin/exchange/' + exchangeId + '/reject', {
+            var response = await fetch('/api/admin/exchange/' + exchangeId + '/reject', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ reason: reason || '无原因' })
@@ -7630,13 +7625,9 @@
             
             if (response.ok) {
                 alert('兑换已驳回');
-                const adminPanel = document.getElementById('adminPanel');
-                if (adminPanel && adminPanel.classList.contains('show')) {
-                    const event = new Event('load');
-                    window.dispatchEvent(event);
-                }
+                location.reload();
             } else {
-                const data = await response.json();
+                var data = await response.json();
                 alert(data.error || '操作失败');
             }
         } catch (error) {
