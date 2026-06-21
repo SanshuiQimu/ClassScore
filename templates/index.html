@@ -1741,7 +1741,7 @@
     <button id="homeLiquidButton" class="home-liquid-button is-hidden" type="button" aria-label="左上角液态玻璃按钮"></button>
 
     <!-- 启动更新公告弹窗 -->
-    <div class="notice-modal glass" id="noticeModal">
+    <div class="notice-modal glass hide" id="noticeModal">
         <h2 class="notice-title" id="noticeTitle">高一11班积分管理系统V1.0.4版本更新公告</h2>
         <div class="notice-content" id="noticeContent">
             1.新增查询选项：点击「立即查询」后，可选择「第 16 周积分」进行查询。<br>
@@ -2249,14 +2249,27 @@
       });
     }
 
+    let resizeTimeout = null;
+    let lastWidth = 0;
+    let lastHeight = 0;
     function resize() {
-      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-      canvas.width = Math.floor(innerWidth * dpr);
-      canvas.height = Math.floor(innerHeight * dpr);
-      canvas.style.width = `${innerWidth}px`;
-      canvas.style.height = `${innerHeight}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      seedSpace();
+      // 防抖处理：避免频繁触发重绘导致抖动
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const w = innerWidth;
+        const h = innerHeight;
+        // 只有当尺寸真正变化时才重绘
+        if (w === lastWidth && h === lastHeight) return;
+        lastWidth = w;
+        lastHeight = h;
+        const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        canvas.style.width = `${w}px`;
+        canvas.style.height = `${h}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        seedSpace();
+      }, 100);
     }
 
     function seedSpace() {
