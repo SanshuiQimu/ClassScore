@@ -1719,7 +1719,7 @@
             position: fixed;
             top: max(14px, env(safe-area-inset-top));
             right: max(14px, env(safe-area-inset-right));
-            z-index: 10002;
+            z-index: 99999 !important;
             display: flex;
             gap: 10px;
             pointer-events: none;
@@ -1727,6 +1727,11 @@
 
         .top-right-buttons.always-show {
             display: flex !important;
+        }
+
+        .top-right-btn {
+            pointer-events: auto !important;
+            cursor: pointer !important;
         }
 
         body.showing-result .top-right-buttons,
@@ -8172,6 +8177,63 @@
     } else {
         initThemeGlassEffect();
     }
+
+
+    // 强制初始化所有功能
+    window.addEventListener('load', function() {
+        console.log('Window loaded, forcing init...');
+        
+        // 强制显示左上角按钮
+        const homeBtn = document.getElementById('homeLiquidButton');
+        if (homeBtn) {
+            homeBtn.classList.remove('is-hidden');
+            homeBtn.classList.add('force-show');
+            console.log('Home button forced visible');
+        }
+        
+        // 重新绑定右上角按钮事件
+        const feedbackBtn = document.getElementById('feedbackBtn');
+        const exchangeBtn = document.getElementById('exchangeBtn');
+        const adminBtn = document.getElementById('adminBtn');
+        const feedbackPage = document.getElementById('feedbackPage');
+        const exchangePage = document.getElementById('exchangePage');
+        const adminLoginPage = document.getElementById('adminLoginPage');
+        
+        if (feedbackBtn) {
+            feedbackBtn.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Feedback clicked');
+                if (feedbackPage) feedbackPage.classList.add('show');
+            };
+        }
+        
+        if (exchangeBtn) {
+            exchangeBtn.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Exchange clicked');
+                if (exchangePage) exchangePage.classList.add('show');
+            };
+        }
+        
+        if (adminBtn) {
+            adminBtn.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Admin clicked');
+                if (adminLoginPage) adminLoginPage.classList.add('show');
+            };
+        }
+        
+        // 初始化主题切换
+        const savedTheme = localStorage.getItem('site-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+        
+        console.log('Force init complete');
+    });
 
     </script>
 
