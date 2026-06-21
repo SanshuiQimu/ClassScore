@@ -8191,6 +8191,14 @@
             console.log('Home button forced visible');
         }
         
+        // 显示更新公告弹窗
+        const noticeModal = document.getElementById('noticeModal');
+        const savedVersion = localStorage.getItem('noticeVersion');
+        if (noticeModal && savedVersion !== 'v1.0.4') {
+            noticeModal.classList.remove('hide');
+            console.log('Notice modal shown');
+        }
+        
         // 重新绑定右上角按钮事件
         const feedbackBtn = document.getElementById('feedbackBtn');
         const exchangeBtn = document.getElementById('exchangeBtn');
