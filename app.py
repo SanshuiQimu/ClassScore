@@ -369,12 +369,6 @@ def admin_score_change():
     changes.append(change_record)
     save_data(SCORE_CHANGES_FILE, changes)
     
-    # 更新内存中的积分变动
-    if name not in score_changes:
-        score_changes[name] = {"change": 0, "records": []}
-    score_changes[name]["change"] += change
-    score_changes[name]["records"].append(change_record)
-    
     return jsonify({"success": True, "message": "积分修改成功"})
 
 
@@ -490,12 +484,6 @@ def approve_exchange(exchange_id):
     changes = load_data(SCORE_CHANGES_FILE)
     changes.append(change_record)
     save_data(SCORE_CHANGES_FILE, changes)
-    
-    # 更新内存中的积分变动
-    if name not in score_changes:
-        score_changes[name] = {"change": 0, "records": []}
-    score_changes[name]["change"] -= points_needed
-    score_changes[name]["records"].append(change_record)
     
     # 更新兑换状态
     exchange['status'] = 'approved'
