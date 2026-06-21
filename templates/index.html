@@ -1883,26 +1883,56 @@
             flex: 1;
             padding: 14px 24px;
             border: none;
-            border-radius: 14px;
+            border-radius: 16px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .form-btn.primary {
-            background: linear-gradient(135deg, #4a90d9, #6b5ce7);
-            color: white;
-        }
-
-        .form-btn.secondary {
-            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px) saturate(1.2);
+            -webkit-backdrop-filter: blur(12px) saturate(1.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.6);
             color: #1d2b53;
         }
 
-        html[data-theme="dark"] .form-btn.secondary {
-            background: rgba(30, 40, 70, 0.4);
+        html[data-theme="dark"] .form-btn {
+            background: rgba(30, 40, 70, 0.35);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.15);
             color: #e8eefc;
+        }
+
+        .form-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.7);
+        }
+
+        html[data-theme="dark"] .form-btn:hover {
+            background: rgba(40, 55, 95, 0.45);
+        }
+
+        .form-btn.primary {
+            background: linear-gradient(135deg, rgba(74, 144, 217, 0.9), rgba(107, 92, 231, 0.9));
+            color: white;
+            box-shadow: 0 4px 16px rgba(74, 144, 217, 0.3),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .form-btn.primary:hover {
+            background: linear-gradient(135deg, rgba(74, 144, 217, 1), rgba(107, 92, 231, 1));
+            box-shadow: 0 6px 20px rgba(74, 144, 217, 0.4),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+        }
+
+        .form-btn.secondary {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        html[data-theme="dark"] .form-btn.secondary {
+            background: rgba(30, 40, 70, 0.3);
         }
 
         /* 成功页面 */
@@ -2019,20 +2049,42 @@
         }
 
         .admin-tab {
-            padding: 10px 20px;
-            border-radius: 12px;
+            padding: 14px 28px;
+            border-radius: 16px;
             border: none;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px) saturate(1.2);
+            -webkit-backdrop-filter: blur(12px) saturate(1.2);
             color: #1d2b53;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.6);
+        }
+
+        html[data-theme="dark"] .admin-tab {
+            background: rgba(30, 40, 70, 0.35);
+            color: #e8eefc;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        }
+
+        .admin-tab:hover {
+            transform: translateY(-2px) scale(1.05);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        html[data-theme="dark"] .admin-tab:hover {
+            background: rgba(40, 55, 95, 0.45);
         }
 
         .admin-tab.active {
-            background: linear-gradient(135deg, #4a90d9, #6b5ce7);
+            background: linear-gradient(135deg, rgba(74, 144, 217, 0.9), rgba(107, 92, 231, 0.9));
             color: white;
+            box-shadow: 0 6px 20px rgba(74, 144, 217, 0.3),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.3);
         }
 
         .admin-content {
@@ -2049,20 +2101,27 @@
         }
 
         .data-card {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px) saturate(1.2);
+            -webkit-backdrop-filter: blur(12px) saturate(1.2);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.5);
         }
 
         html[data-theme="dark"] .data-card {
             background: rgba(30, 40, 70, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.1);
         }
 
         .data-card-title {
-            font-weight: 600;
+            font-weight: 700;
             color: #1d2b53;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-size: 15px;
         }
 
         html[data-theme="dark"] .data-card-title {
@@ -2072,6 +2131,7 @@
         .data-card-content {
             font-size: 14px;
             color: #2c3b66;
+            line-height: 1.5;
         }
 
         html[data-theme="dark"] .data-card-content {
@@ -2081,7 +2141,46 @@
         .data-card-time {
             font-size: 12px;
             color: #6b7b9c;
-            margin-top: 8px;
+            margin-top: 10px;
+        }
+
+        .data-card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .data-card-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .data-card-btn.approve {
+            background: linear-gradient(135deg, #52c41a, #73d13d);
+            color: white;
+            box-shadow: 0 3px 10px rgba(82, 196, 26, 0.3);
+        }
+
+        .data-card-btn.approve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 14px rgba(82, 196, 26, 0.4);
+        }
+
+        .data-card-btn.reject {
+            background: linear-gradient(135deg, #ff4d4f, #ff7875);
+            color: white;
+            box-shadow: 0 3px 10px rgba(255, 77, 79, 0.3);
+        }
+
+        .data-card-btn.reject:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 14px rgba(255, 77, 79, 0.4);
         }
     </style>
 </head>
@@ -7332,7 +7431,7 @@
             const name = document.getElementById('feedbackName').value.trim() || '匿名';
             
             if (!content) {
-                alert('请输入问题描述');
+                showAlert('提示', '请输入问题描述');
                 return;
             }
 
@@ -7349,10 +7448,10 @@
                     document.getElementById('feedbackContent').value = '';
                     document.getElementById('feedbackName').value = '';
                 } else {
-                    alert('提交失败，请重试');
+                    showAlert('错误', '提交失败，请重试');
                 }
             } catch (error) {
-                alert('提交失败，请检查网络');
+                showAlert('错误', '提交失败，请检查网络');
             }
         });
 
@@ -7382,7 +7481,7 @@
             const name = document.getElementById('exchangeName').value.trim();
             
             if (!itemName || !price || !name) {
-                alert('请填写所有必填项');
+                showAlert('提示', '请填写所有必填项');
                 return;
             }
 
@@ -7406,10 +7505,10 @@
                     document.getElementById('exchangePrice').value = '';
                     document.getElementById('exchangeName').value = '';
                 } else {
-                    alert('提交失败，请重试');
+                    showAlert('错误', '提交失败，请重试');
                 }
             } catch (error) {
-                alert('提交失败，请检查网络');
+                showAlert('错误', '提交失败，请检查网络');
             }
         });
 
@@ -7442,7 +7541,7 @@
             const password = document.getElementById('adminPassword').value;
             
             if (!username || !password) {
-                alert('请输入账号和密码');
+                showAlert('提示', '请输入账号和密码');
                 return;
             }
 
@@ -7458,10 +7557,10 @@
                     adminPanel.classList.add('show');
                     loadAdminData();
                 } else {
-                    alert('账号或密码错误');
+                    showAlert('错误', '账号或密码错误');
                 }
             } catch (error) {
-                alert('登录失败，请检查网络');
+                showAlert('错误', '登录失败，请检查网络');
             }
         });
 
@@ -7482,6 +7581,70 @@
             document.getElementById('adminUsername').value = '';
             document.getElementById('adminPassword').value = '';
         });
+
+
+        // 同意兑换
+        async function approveExchange(exchangeId) {
+            try {
+                const response = await fetch('/api/admin/exchange/' + exchangeId + '/approve', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    showAlert('成功', '兑换已同意，积分已扣除', function() {
+                        loadAdminData();
+                    });
+                } else {
+                    const data = await response.json();
+                    showAlert('错误', data.error || '操作失败');
+                }
+            } catch (error) {
+                showAlert('错误', '网络错误，请重试');
+            }
+        }
+
+        // 驳回兑换
+        async function rejectExchange(exchangeId) {
+            const reason = prompt('请输入驳回原因（可选）：');
+            if (reason === null) return; // 用户取消
+            
+            try {
+                const response = await fetch('/api/admin/exchange/' + exchangeId + '/reject', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reason: reason || '无原因' })
+                });
+                
+                if (response.ok) {
+                    showAlert('成功', '兑换已驳回', function() {
+                        loadAdminData();
+                    });
+                } else {
+                    const data = await response.json();
+                    showAlert('错误', data.error || '操作失败');
+                }
+            } catch (error) {
+                showAlert('错误', '网络错误，请重试');
+            }
+        }
+
+        // 检查用户是否有被驳回的兑换记录
+        async function checkRejectedExchanges(name) {
+            try {
+                const response = await fetch('/api/my-exchanges/' + encodeURIComponent(name));
+                if (response.ok) {
+                    const exchanges = await response.json();
+                    if (exchanges.length > 0) {
+                        // 显示第一条驳回记录
+                        const e = exchanges[0];
+                        showAlert('兑换被驳回', '您的兑换申请「' + e.item_name + '」已被驳回。原因：' + (e.reject_reason || '无原因'));
+                    }
+                }
+            } catch (error) {
+                console.error('检查驳回记录失败:', error);
+            }
+        }
 
         // 加载管理员数据
         async function loadAdminData() {
@@ -7542,7 +7705,7 @@
             const reason = document.getElementById('scoreChangeReason').value.trim();
             
             if (!name || isNaN(change)) {
-                alert('请填写姓名和积分变动');
+                showAlert('提示', '请填写姓名和积分变动');
                 return;
             }
 
@@ -7554,16 +7717,16 @@
                 });
                 
                 if (response.ok) {
-                    alert('积分变动成功');
+                    showAlert('成功', '积分变动成功');
                     document.getElementById('scoreChangeName').value = '';
                     document.getElementById('scoreChangeValue').value = '';
                     document.getElementById('scoreChangeReason').value = '';
                     loadAdminData();
                 } else {
-                    alert('操作失败，请重试');
+                    showAlert('错误', '操作失败，请重试');
                 }
             } catch (error) {
-                alert('操作失败，请检查网络');
+                showAlert('错误', '操作失败，请检查网络');
             }
         });
 
@@ -7648,7 +7811,7 @@
                 const name = document.getElementById('feedbackName').value.trim() || '匿名';
                 
                 if (!content) {
-                    alert('请输入问题描述');
+                    showAlert('提示', '请输入问题描述');
                     return;
                 }
 
@@ -7665,10 +7828,10 @@
                         document.getElementById('feedbackContent').value = '';
                         document.getElementById('feedbackName').value = '';
                     } else {
-                        alert('提交失败，请重试');
+                        showAlert('错误', '提交失败，请重试');
                     }
                 } catch (error) {
-                    alert('提交失败，请检查网络');
+                    showAlert('错误', '提交失败，请检查网络');
                 }
             });
         }
@@ -7701,7 +7864,7 @@
                 const name = document.getElementById('exchangeName').value.trim();
                 
                 if (!itemName || !price || !name) {
-                    alert('请填写所有必填项');
+                    showAlert('提示', '请填写所有必填项');
                     return;
                 }
 
@@ -7725,10 +7888,10 @@
                         document.getElementById('exchangePrice').value = '';
                         document.getElementById('exchangeName').value = '';
                     } else {
-                        alert('提交失败，请重试');
+                        showAlert('错误', '提交失败，请重试');
                     }
                 } catch (error) {
-                    alert('提交失败，请检查网络');
+                    showAlert('错误', '提交失败，请检查网络');
                 }
             });
         }
@@ -7767,7 +7930,7 @@
                 const password = document.getElementById('adminPassword').value;
                 
                 if (!username || !password) {
-                    alert('请输入账号和密码');
+                    showAlert('提示', '请输入账号和密码');
                     return;
                 }
 
@@ -7783,10 +7946,10 @@
                         if (adminPanel) adminPanel.classList.add('show');
                         loadAdminData();
                     } else {
-                        alert('账号或密码错误');
+                        showAlert('错误', '账号或密码错误');
                     }
                 } catch (error) {
-                    alert('登录失败，请检查网络');
+                    showAlert('错误', '登录失败，请检查网络');
                 }
             });
         }
@@ -7816,6 +7979,98 @@
             });
         }
 
+        // 提示弹窗函数
+        function showAlert(title, content, callback) {
+            const alertOverlay = document.getElementById('alertOverlay');
+            const alertModal = document.getElementById('alertModal');
+            const alertTitle = document.getElementById('alertTitle');
+            const alertContent = document.getElementById('alertContent');
+            const alertBtn = document.getElementById('alertBtn');
+            
+            if (alertTitle) alertTitle.textContent = title;
+            if (alertContent) alertContent.textContent = content;
+            
+            if (alertOverlay) alertOverlay.classList.add('show');
+            if (alertModal) alertModal.classList.add('show');
+            
+            const closeAlert = function() {
+                if (alertOverlay) alertOverlay.classList.remove('show');
+                if (alertModal) alertModal.classList.remove('show');
+                if (callback) callback();
+            };
+            
+            if (alertBtn) {
+                alertBtn.onclick = closeAlert;
+            }
+            if (alertOverlay) {
+                alertOverlay.onclick = closeAlert;
+            }
+        }
+
+
+        // 同意兑换
+        async function approveExchange(exchangeId) {
+            try {
+                const response = await fetch('/api/admin/exchange/' + exchangeId + '/approve', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    showAlert('成功', '兑换已同意，积分已扣除', function() {
+                        loadAdminData();
+                    });
+                } else {
+                    const data = await response.json();
+                    showAlert('错误', data.error || '操作失败');
+                }
+            } catch (error) {
+                showAlert('错误', '网络错误，请重试');
+            }
+        }
+
+        // 驳回兑换
+        async function rejectExchange(exchangeId) {
+            const reason = prompt('请输入驳回原因（可选）：');
+            if (reason === null) return; // 用户取消
+            
+            try {
+                const response = await fetch('/api/admin/exchange/' + exchangeId + '/reject', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reason: reason || '无原因' })
+                });
+                
+                if (response.ok) {
+                    showAlert('成功', '兑换已驳回', function() {
+                        loadAdminData();
+                    });
+                } else {
+                    const data = await response.json();
+                    showAlert('错误', data.error || '操作失败');
+                }
+            } catch (error) {
+                showAlert('错误', '网络错误，请重试');
+            }
+        }
+
+        // 检查用户是否有被驳回的兑换记录
+        async function checkRejectedExchanges(name) {
+            try {
+                const response = await fetch('/api/my-exchanges/' + encodeURIComponent(name));
+                if (response.ok) {
+                    const exchanges = await response.json();
+                    if (exchanges.length > 0) {
+                        // 显示第一条驳回记录
+                        const e = exchanges[0];
+                        showAlert('兑换被驳回', '您的兑换申请「' + e.item_name + '」已被驳回。原因：' + (e.reject_reason || '无原因'));
+                    }
+                }
+            } catch (error) {
+                console.error('检查驳回记录失败:', error);
+            }
+        }
+
         // 加载管理员数据
         async function loadAdminData() {
             try {
@@ -7838,7 +8093,16 @@
                     const exchangeList = document.getElementById('exchangeList');
                     if (exchangeList) {
                         exchangeList.innerHTML = exchanges.map(function(e) {
-                            return '<div class="data-card"><div class="data-card-title">' + e.item_name + ' - ' + e.name + '</div><div class="data-card-content">价格：¥' + e.price + ' | 所需积分：' + e.points_needed + '<br>链接：' + e.item_link + '</div><div class="data-card-time">' + new Date(e.timestamp).toLocaleString() + '</div></div>';
+                            var statusText = '';
+                            var actionButtons = '';
+                            if (e.status === 'pending') {
+                                actionButtons = '<div class="data-card-actions"><button class="data-card-btn approve" onclick="approveExchange('' + e.id + '')">同意兑换</button><button class="data-card-btn reject" onclick="rejectExchange('' + e.id + '')">驳回兑换</button></div>';
+                            } else if (e.status === 'approved') {
+                                statusText = '<span style="color:#52c41a;">[已同意]</span> ';
+                            } else if (e.status === 'rejected') {
+                                statusText = '<span style="color:#ff4d4f;">[已驳回]</span> ';
+                            }
+                            return '<div class="data-card" data-id="' + e.id + '"><div class="data-card-title">' + statusText + e.item_name + ' - ' + e.name + '</div><div class="data-card-content">价格：¥' + e.price + ' | 所需积分：' + e.points_needed + '<br>链接：' + e.item_link + '</div><div class="data-card-time">' + new Date(e.timestamp).toLocaleString() + '</div>' + actionButtons + '</div>';
                         }).reverse().join('') || '<p style="text-align:center;color:#6b7b9c;">暂无数据</p>';
                     }
                 }
@@ -7868,7 +8132,7 @@
                 const reason = document.getElementById('scoreChangeReason').value.trim();
                 
                 if (!name || isNaN(change)) {
-                    alert('请填写姓名和积分变动');
+                    showAlert('提示', '请填写姓名和积分变动');
                     return;
                 }
 
@@ -7880,16 +8144,16 @@
                     });
                     
                     if (response.ok) {
-                        alert('积分变动成功');
+                        showAlert('成功', '积分变动成功');
                         document.getElementById('scoreChangeName').value = '';
                         document.getElementById('scoreChangeValue').value = '';
                         document.getElementById('scoreChangeReason').value = '';
                         loadAdminData();
                     } else {
-                        alert('操作失败，请重试');
+                        showAlert('错误', '操作失败，请重试');
                     }
                 } catch (error) {
-                    alert('操作失败，请检查网络');
+                    showAlert('错误', '操作失败，请检查网络');
                 }
             });
         }
@@ -7965,7 +8229,7 @@
             </svg>
         </div>
         <div class="success-text">提交成功！</div>
-        <button class="form-btn primary" id="successBackBtn" style="width: 200px;">返回</button>
+        <button class="form-btn primary" id="successBackBtn" style="width: 120px; padding: 10px 20px; font-size: 14px;">返回</button>
     </div>
 
     <!-- 管理员登录页面 -->
@@ -8020,5 +8284,14 @@
             </div>
         </div>
     </div>
+
+    <!-- 提示弹窗 -->
+    <div class="modal-overlay" id="alertOverlay" style="z-index: 10000;"></div>
+    <div class="alert-modal" id="alertModal">
+        <div class="alert-modal-title" id="alertTitle">提示</div>
+        <div class="alert-modal-content" id="alertContent"></div>
+        <button class="alert-modal-btn" id="alertBtn">好</button>
+    </div>
+
 </body>
 </html>

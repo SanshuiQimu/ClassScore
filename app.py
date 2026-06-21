@@ -369,6 +369,94 @@ def admin_score_change():
     
     return jsonify({"success": True, "message": "积分修改成功"})
 
+@app.route('/api/admin/exchange/<exchange_id>/approve', methods=['POST'])
+@admin_required
+def approve_exchange(exchange_id):
+    """同意积分兑换"""
+    exchanges = load_data(EXCHANGE_FILE)
+    exchange = None
+    for e in exchanges:
+        if e.get('id') == exchange_id:
+            exchange = e
+            break
+    
+    if not exchange:
+        return jsonify({"error": "兑换记录不存在"}), 404
+    
+    if exchange.get('status') == 'approved':
+        return jsonify({"error": "该兑换已处理"}), 400
+    
+    name = exchange.get('name')
+    points_needed = exchange.get('points_needed', 0)
+    
+    # 扣除积分
+    change_record = {
+        "id": hashlib.md5(f"{time.time()}{name}".encode()).hexdigest()[:16],
+        "name": name,
+        "change": -points_needed,
+        "reason": f"积分兑换：{exchange.get('item_name')}",
+        "timestamp": datetime.now().isoformat(),
+        "admin": True,
+        "exchange_id": exchange_id
+    }
+    
+    changes = load_data(SCORE_CHANGES_FILE)
+    changes.append(change_record)
+    save_data(SCORE_CHANGES_FILE, changes)
+    
+    # 更新内存中的积分变动
+    if name not in score_changes:
+        score_changes[name] = {"change": 0, "records": []}
+    score_changes[name]["change"] -= points_needed
+    score_changes[name]["records"].append(change_record)
+    
+    # 更新兑换状态
+    exchange['status'] = 'approved'
+    exchange['approved_at'] = datetime.now().isoformat()
+    save_data(EXCHANGE_FILE, exchanges)
+    
+    return jsonify({"success": True, "message": "兑换已同意"})
+
+@app.route('/api/admin/exchange/<exchange_id>/reject', methods=['POST'])
+@admin_required
+def reject_exchange(exchange_id):
+    """驳回积分兑换"""
+    data = request.json or {}
+    reject_reason = data.get('reason', '无原因')
+    
+    exchanges = load_data(EXCHANGE_FILE)
+    exchange = None
+    for e in exchanges:
+        if e.get('id') == exchange_id:
+            exchange = e
+            break
+    
+    if not exchange:
+        return jsonify({"error": "兑换记录不存在"}), 404
+    
+    if exchange.get('status') == 'rejected':
+        return jsonify({"error": "该兑换已驳回"}), 400
+    
+    # 更新兑换状态
+    exchange['status'] = 'rejected'
+    exchange['reject_reason'] = reject_reason
+    exchange['rejected_at'] = datetime.now().isoformat()
+    save_data(EXCHANGE_FILE, exchanges)
+    
+    return jsonify({"success": True, "message": "兑换已驳回"})
+
+@app.route('/api/my-exchanges/<name>')
+def get_my_exchanges(name):
+    """获取用户的兑换记录（用于显示驳回提示）"""
+    exchanges = load_data(EXCHANGE_FILE)
+    my_exchanges = [e for e in exchanges if e.get('name') == name and e.get('status') == 'rejected']
+    # 清除已查看的标记
+    for e in my_exchanges:
+        if not e.get('viewed'):
+            e['viewed'] = True
+    save_data(EXCHANGE_FILE, exchanges)
+    return jsonify(my_exchanges)
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
