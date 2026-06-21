@@ -210,11 +210,11 @@ def get_score(week, name):
     if name not in SCORE_DATA[week]:
         return jsonify({"error": "姓名不存在"}), 404
     
-    # 合并动态积分变动
+    # 合并动态积分变动 - 从文件实时读取
     data = SCORE_DATA[week][name].copy()
-    if name in score_changes:
-        change = score_changes[name].get('change', 0)
-        data['累计得分'] = data.get('累计得分', 0) + change
+    changes = load_data(SCORE_CHANGES_FILE)
+    total_change = sum(c.get('change', 0) for c in changes if c.get('name') == name)
+    data['累计得分'] = data.get('累计得分', 0) + total_change
     
     return jsonify({
         "week": week,
@@ -228,12 +228,20 @@ def get_week_scores(week):
     if week not in SCORE_DATA:
         return jsonify({"error": "周次不存在"}), 404
     
-    # 合并动态积分变动
+    # 合并动态积分变动 - 从文件实时读取
     data = SCORE_DATA[week].copy()
+    changes = load_data(SCORE_CHANGES_FILE)
+    
+    # 计算每个学生的总变动
+    student_changes = {}
+    for c in changes:
+        name = c.get('name')
+        if name:
+            student_changes[name] = student_changes.get(name, 0) + c.get('change', 0)
+    
     for name in data:
-        if name in score_changes:
-            change = score_changes[name].get('change', 0)
-            data[name]['累计得分'] = data[name].get('累计得分', 0) + change
+        if name in student_changes:
+            data[name]['累计得分'] = data[name].get('累计得分', 0) + student_changes[name]
     
     return jsonify({
         "week": week,

@@ -2405,6 +2405,7 @@
             <button class="option-btn glass btn" id="score89Option">第8周至第9周积分</button>
             <button class="option-btn glass btn" id="score1014Option">第10周至第14周积分</button>
             <button class="option-btn glass btn" id="score15Option">第15周积分</button>
+            <button class="option-btn glass btn" id="totalScoreOption" style="background: linear-gradient(135deg, rgba(82, 196, 26, 0.3), rgba(115, 209, 61, 0.3)); border-color: rgba(82, 196, 26, 0.5);">查询当前总分</button>
             <button class="option-btn glass btn" id="cancelSelectOption">取消</button>
         </div>
 
@@ -6945,6 +6946,42 @@
         score89Option.addEventListener('click', go89Result);
         score1014Option.addEventListener('click', go1014Result);
         score15Option.addEventListener('click', go15Result);
+        
+        // 查询当前总分
+        const totalScoreOption = document.getElementById('totalScoreOption');
+        if (totalScoreOption) {
+            totalScoreOption.addEventListener('click', async function() {
+                const name = nameInput.value.trim();
+                if (!name) {
+                    alert('请先输入姓名');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/api/student/total-score/' + encodeURIComponent(name));
+                    if (response.ok) {
+                        const data = await response.json();
+                        displayTotalScore(data);
+                        selectModal.classList.remove('show');
+                        setTimeout(() => {
+                            selectModal.style.display = 'none';
+                            document.body.classList.remove('showing-select');
+                            // 显示总分页面
+                            const totalScorePage = document.getElementById('totalScorePage');
+                            if (totalScorePage) {
+                                totalScorePage.classList.add('show');
+                            }
+                        }, 300);
+                    } else {
+                        const error = await response.json();
+                        alert(error.error || '查询失败');
+                    }
+                } catch (error) {
+                    alert('网络错误，请重试');
+                }
+            });
+        }
+        
         cancelSelectOption.addEventListener('click', cancelSelect);
         backBtn.addEventListener('click', backSearch);
         nameInput.addEventListener('keydown', e => {
