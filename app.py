@@ -1,13 +1,31 @@
 #!/usr/bin/env python3
 """
 高一11班积分管理系统 - Flask应用
+包含：积分查询、问题反馈、积分兑换、管理员后台
 """
 
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, session
+from functools import wraps
 import json
 import os
+import hashlib
+import time
+from datetime import datetime
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here')
+
+# 数据存储文件
+DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
+os.makedirs(DATA_DIR, exist_ok=True)
+
+FEEDBACK_FILE = os.path.join(DATA_DIR, 'feedback.json')
+EXCHANGE_FILE = os.path.join(DATA_DIR, 'exchange.json')
+SCORE_CHANGES_FILE = os.path.join(DATA_DIR, 'score_changes.json')
+
+# 管理员账号
+ADMIN_USERNAME = "ssqm100716"
+ADMIN_PASSWORD = "lkx123456."
 
 # 积分数据
 SCORE_DATA = {
@@ -151,36 +169,32 @@ SCORE_DATA = {
     }
 }
 
-# 更新公告
-UPDATE_NOTES = {
-    "v1.0.4": [
-        "新增查询选项：点击「立即查询」后，可选择「第 16 周积分」进行查询。",
-        "新增满血版Liquid Glass动效。",
-        "新增休闲中心（暂时只开放彩蛋、2048）。",
-        "修复了深浅色模式切换时的卡顿。",
-        "优化系统流畅度，提升系统稳定性。"
-    ],
-    "v1.0.3": [
-        "新增彩蛋游戏，点击「彩蛋」按钮即可进入。",
-        "优化了 Liquid Glass 动效。",
-        "修复了一些已知问题。"
-    ],
-    "v1.0.2": [
-        "新增 2048 游戏。",
-        "优化了查询速度。",
-        "修复了一些已知问题。"
-    ],
-    "v1.0.1": [
-        "新增积分兑换功能。",
-        "新增系统建议功能。",
-        "优化了界面显示。"
-    ],
-    "v1.0.0": [
-        "初始版本发布。",
-        "支持积分查询功能。",
-        "支持多周积分查询。"
-    ]
-}
+# 动态积分变动存储
+score_changes = {}
+
+def load_data(filepath):
+    """加载JSON数据"""
+    if os.path.exists(filepath):
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return []
+    return []
+
+def save_data(filepath, data):
+    """保存JSON数据"""
+    with open(filepath, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+def admin_required(f):
+    """管理员权限检查装饰器"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('is_admin'):
+            return jsonify({"error": "需要管理员权限"}), 403
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route('/')
 def index():
@@ -196,10 +210,16 @@ def get_score(week, name):
     if name not in SCORE_DATA[week]:
         return jsonify({"error": "姓名不存在"}), 404
     
+    # 合并动态积分变动
+    data = SCORE_DATA[week][name].copy()
+    if name in score_changes:
+        change = score_changes[name].get('change', 0)
+        data['累计得分'] = data.get('累计得分', 0) + change
+    
     return jsonify({
         "week": week,
         "name": name,
-        "data": SCORE_DATA[week][name]
+        "data": data
     })
 
 @app.route('/api/score/<week>')
@@ -208,30 +228,146 @@ def get_week_scores(week):
     if week not in SCORE_DATA:
         return jsonify({"error": "周次不存在"}), 404
     
+    # 合并动态积分变动
+    data = SCORE_DATA[week].copy()
+    for name in data:
+        if name in score_changes:
+            change = score_changes[name].get('change', 0)
+            data[name]['累计得分'] = data[name].get('累计得分', 0) + change
+    
     return jsonify({
         "week": week,
-        "data": SCORE_DATA[week]
+        "data": data
     })
 
-@app.route('/api/updates')
-def get_updates():
-    """获取更新公告"""
-    return jsonify(UPDATE_NOTES)
+@app.route('/api/feedback', methods=['POST'])
+def submit_feedback():
+    """提交问题反馈"""
+    data = request.json
+    if not data or not data.get('content'):
+        return jsonify({"error": "问题内容不能为空"}), 400
+    
+    feedback = {
+        "id": hashlib.md5(f"{time.time()}{data.get('name','')}".encode()).hexdigest()[:16],
+        "content": data.get('content'),
+        "name": data.get('name', '匿名'),
+        "timestamp": datetime.now().isoformat(),
+        "ip": request.remote_addr
+    }
+    
+    feedbacks = load_data(FEEDBACK_FILE)
+    feedbacks.append(feedback)
+    save_data(FEEDBACK_FILE, feedbacks)
+    
+    return jsonify({"success": True, "message": "提交成功"})
 
-@app.route('/api/search')
-def search():
-    """搜索姓名"""
-    query = request.args.get('q', '').strip()
-    if not query:
-        return jsonify([])
+@app.route('/api/exchange', methods=['POST'])
+def submit_exchange():
+    """提交积分兑换"""
+    data = request.json
+    if not data or not data.get('item_name') or not data.get('price') or not data.get('name'):
+        return jsonify({"error": "必填项不能为空"}), 400
     
-    results = []
-    for week, data in SCORE_DATA.items():
-        for name in data.keys():
-            if query in name and name not in [r['name'] for r in results]:
-                results.append({"name": name})
+    try:
+        price = float(data.get('price', 0))
+        points_needed = price * 3
+    except:
+        return jsonify({"error": "价格格式错误"}), 400
     
-    return jsonify(results)
+    exchange = {
+        "id": hashlib.md5(f"{time.time()}{data.get('name','')}".encode()).hexdigest()[:16],
+        "item_link": data.get('item_link', '无'),
+        "item_name": data.get('item_name'),
+        "price": price,
+        "points_needed": points_needed,
+        "name": data.get('name'),
+        "timestamp": datetime.now().isoformat(),
+        "status": "pending",
+        "ip": request.remote_addr
+    }
+    
+    exchanges = load_data(EXCHANGE_FILE)
+    exchanges.append(exchange)
+    save_data(EXCHANGE_FILE, exchanges)
+    
+    return jsonify({"success": True, "message": "提交成功", "points_needed": points_needed})
+
+@app.route('/api/admin/login', methods=['POST'])
+def admin_login():
+    """管理员登录"""
+    data = request.json
+    if not data:
+        return jsonify({"error": "请求数据不能为空"}), 400
+    
+    username = data.get('username', '')
+    password = data.get('password', '')
+    
+    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+        session['is_admin'] = True
+        return jsonify({"success": True, "message": "登录成功"})
+    
+    return jsonify({"error": "账号或密码错误"}), 401
+
+@app.route('/api/admin/logout', methods=['POST'])
+def admin_logout():
+    """管理员登出"""
+    session.pop('is_admin', None)
+    return jsonify({"success": True})
+
+@app.route('/api/admin/feedback')
+@admin_required
+def get_feedback():
+    """获取所有问题反馈（管理员）"""
+    feedbacks = load_data(FEEDBACK_FILE)
+    return jsonify(feedbacks)
+
+@app.route('/api/admin/exchange')
+@admin_required
+def get_exchange():
+    """获取所有积分兑换（管理员）"""
+    exchanges = load_data(EXCHANGE_FILE)
+    return jsonify(exchanges)
+
+@app.route('/api/admin/score-changes')
+@admin_required
+def get_score_changes():
+    """获取所有积分变动记录（管理员）"""
+    changes = load_data(SCORE_CHANGES_FILE)
+    return jsonify(changes)
+
+@app.route('/api/admin/score-change', methods=['POST'])
+@admin_required
+def admin_score_change():
+    """管理员修改积分"""
+    data = request.json
+    if not data or not data.get('name') or data.get('change') is None:
+        return jsonify({"error": "必填项不能为空"}), 400
+    
+    name = data.get('name')
+    change = float(data.get('change'))
+    reason = data.get('reason', '')
+    
+    # 记录积分变动
+    change_record = {
+        "id": hashlib.md5(f"{time.time()}{name}".encode()).hexdigest()[:16],
+        "name": name,
+        "change": change,
+        "reason": reason,
+        "timestamp": datetime.now().isoformat(),
+        "admin": session.get('is_admin', False)
+    }
+    
+    changes = load_data(SCORE_CHANGES_FILE)
+    changes.append(change_record)
+    save_data(SCORE_CHANGES_FILE, changes)
+    
+    # 更新内存中的积分变动
+    if name not in score_changes:
+        score_changes[name] = {"change": 0, "records": []}
+    score_changes[name]["change"] += change
+    score_changes[name]["records"].append(change_record)
+    
+    return jsonify({"success": True, "message": "积分修改成功"})
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
