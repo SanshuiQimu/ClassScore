@@ -2187,6 +2187,82 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 14px rgba(255, 77, 79, 0.4);
         }
+
+        /* 提示弹窗样式 */
+        .alert-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 85%;
+            max-width: 300px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(30px) saturate(2);
+            -webkit-backdrop-filter: blur(30px) saturate(2);
+            border-radius: 24px;
+            padding: 28px 24px 24px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        html[data-theme="dark"] .alert-modal {
+            background: rgba(45, 55, 85, 0.98);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .alert-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .alert-modal-title {
+            text-align: center;
+            font-size: 17px;
+            font-weight: 700;
+            color: #1d2b53;
+            margin-bottom: 12px;
+        }
+
+        html[data-theme="dark"] .alert-modal-title {
+            color: #e8eefc;
+        }
+
+        .alert-modal-content {
+            text-align: center;
+            font-size: 14px;
+            color: #6b7b9c;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        html[data-theme="dark"] .alert-modal-content {
+            color: #a0aec0;
+        }
+
+        .alert-modal-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 16px;
+            border: none;
+            background: linear-gradient(135deg, #ff4444, #ff6b6b);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
+        }
+
+        .alert-modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 68, 68, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -8187,7 +8263,9 @@
         const homeBtn = document.getElementById('homeLiquidButton');
         if (homeBtn) {
             homeBtn.classList.remove('is-hidden');
-            homeBtn.classList.add('force-show');
+            homeBtn.style.opacity = '1';
+            homeBtn.style.pointerEvents = 'auto';
+            homeBtn.style.transform = 'scale(1)';
             console.log('Home button forced visible');
         }
         
@@ -8196,7 +8274,16 @@
         const savedVersion = localStorage.getItem('noticeVersion');
         if (noticeModal && savedVersion !== 'v1.0.4') {
             noticeModal.classList.remove('hide');
+            noticeModal.style.display = 'block';
             console.log('Notice modal shown');
+        }
+        
+        // 初始化主题切换dock
+        if (typeof initThemeDockLiquidGlass === 'function') {
+            initThemeDockLiquidGlass();
+        }
+        if (typeof initThemeDockInteraction === 'function') {
+            initThemeDockInteraction();
         }
         
         // 重新绑定右上角按钮事件
@@ -8207,31 +8294,46 @@
         const exchangePage = document.getElementById('exchangePage');
         const adminLoginPage = document.getElementById('adminLoginPage');
         
+        function showFeedbackPage() {
+            console.log('Feedback clicked');
+            if (feedbackPage) {
+                feedbackPage.style.display = 'flex';
+                setTimeout(function() { feedbackPage.classList.add('show'); }, 10);
+            }
+            return false;
+        }
+        
+        function showExchangePage() {
+            console.log('Exchange clicked');
+            if (exchangePage) {
+                exchangePage.style.display = 'flex';
+                setTimeout(function() { exchangePage.classList.add('show'); }, 10);
+            }
+            return false;
+        }
+        
+        function showAdminPage() {
+            console.log('Admin clicked');
+            if (adminLoginPage) {
+                adminLoginPage.style.display = 'flex';
+                setTimeout(function() { adminLoginPage.classList.add('show'); }, 10);
+            }
+            return false;
+        }
+        
         if (feedbackBtn) {
-            feedbackBtn.onclick = function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Feedback clicked');
-                if (feedbackPage) feedbackPage.classList.add('show');
-            };
+            feedbackBtn.onclick = showFeedbackPage;
+            feedbackBtn.addEventListener('touchstart', showFeedbackPage, {passive: false});
         }
         
         if (exchangeBtn) {
-            exchangeBtn.onclick = function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Exchange clicked');
-                if (exchangePage) exchangePage.classList.add('show');
-            };
+            exchangeBtn.onclick = showExchangePage;
+            exchangeBtn.addEventListener('touchstart', showExchangePage, {passive: false});
         }
         
         if (adminBtn) {
-            adminBtn.onclick = function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Admin clicked');
-                if (adminLoginPage) adminLoginPage.classList.add('show');
-            };
+            adminBtn.onclick = showAdminPage;
+            adminBtn.addEventListener('touchstart', showAdminPage, {passive: false});
         }
         
         // 初始化主题切换
