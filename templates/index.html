@@ -7528,7 +7528,7 @@
                             var statusText = '';
                             var actionButtons = '';
                             if (e.status === 'pending' || !e.status) {
-                                actionButtons = '<div class="data-card-actions"><button class="data-card-btn approve" onclick="approveExchange('' + e.id + '')">同意兑换</button><button class="data-card-btn reject" onclick="rejectExchange('' + e.id + '')">驳回兑换</button></div>';
+                                actionButtons = '<div class="data-card-actions"><button class="data-card-btn approve" onclick="approveExchange(\'' + e.id + '\')">同意兑换</button><button class="data-card-btn reject" onclick="rejectExchange(\'' + e.id + '\')">驳回兑换</button></div>';
                             } else if (e.status === 'approved') {
                                 statusText = '<span style="color:#52c41a;">[已同意]</span> ';
                             } else if (e.status === 'rejected') {
