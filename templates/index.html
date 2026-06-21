@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高一11班积分管理系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e0e8ff 0%, #f0f4ff 50%, #e8f0ff 100%);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 液态玻璃样式 */
+        .glass {
+            position: relative;
+            border-radius: 26px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px) saturate(1.2);
+            -webkit-backdrop-filter: blur(20px) saturate(1.2);
+            box-shadow:
+                0 6px 6px rgba(0, 0, 0, 0.18),
+                0 0 22px rgba(0, 0, 0, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 32px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1d2b53;
+            margin-bottom: 24px;
+            font-size: 28px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 14px 18px;
+            border: none;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.4);
+            font-size: 16px;
+            outline: none;
+            color: #1d2b53;
+        }
+
+        input[type="text"]::placeholder {
+            color: #6b7b9c;
+        }
+
+        button {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #4a90d9, #6b5ce7);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(75, 108, 183, 0.4);
+        }
+
+        .week-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .week-btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            color: #1d2b53;
+            font-size: 14px;
+        }
+
+        .week-btn.active {
+            background: linear-gradient(135deg, #4a90d9, #6b5ce7);
+            color: white;
+        }
+
+        .result-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .result-container.show {
+            display: block;
+        }
+
+        .score-card {
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .score-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .student-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1d2b53;
+        }
+
+        .total-score {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4a90d9, #6b5ce7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .score-label {
+            color: #6b7b9c;
+            font-size: 14px;
+        }
+
+        .score-value {
+            font-weight: 600;
+            color: #1d2b53;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 20px;
+            color: #e74c3c;
+        }
+
+        .top-right-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .top-right-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            border: none;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .top-right-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .top-right-btn .label {
+            font-size: 10px;
+            margin-top: 2px;
+            color: #1d2b53;
+        }
+
+        /* 弹窗样式 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal-overlay.show {
+            display: block;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 400px;
+            padding: 28px;
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-title {
+            text-align: center;
+            font-size: 18px;
+            color: #1d2b53;
+            margin-bottom: 20px;
+        }
+
+        .qr-content {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .qr-image {
+            width: 200px;
+            height: 200px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 15px;
+        }
+
+        .modal-btn.save {
+            background: linear-gradient(135deg, #4a90d9, #6b5ce7);
+        }
+
+        .modal-btn.back {
+            background: rgba(255, 255, 255, 0.4);
+            color: #1d2b53;
+        }
+    </style>
+</head>
+<body>
+    <!-- 右上角按钮 -->
+    <div class="top-right-buttons">
+        <button class="top-right-btn" onclick="showModal('systemModal')">
+            🔍
+            <span class="label">系统建议</span>
+        </button>
+        <button class="top-right-btn" onclick="showModal('pointsModal')">
+            🎁
+            <span class="label">积分兑换</span>
+        </button>
+    </div>
+
+    <div class="container glass">
+        <h1>高一11班积分管理系统</h1>
+        
+        <div class="week-selector">
+            <button class="week-btn active" data-week="5">第5周</button>
+            <button class="week-btn" data-week="6">第6周</button>
+            <button class="week-btn" data-week="15">第15周</button>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="nameInput" placeholder="请输入姓名查询...">
+            <button onclick="searchScore()">查询</button>
+        </div>
+
+        <div class="result-container" id="resultContainer"></div>
+    </div>
+
+    <!-- 系统建议弹窗 -->
+    <div class="modal-overlay" id="modalOverlay" onclick="hideAllModals()"></div>
+    
+    <div class="modal glass" id="systemModal">
+        <h3 class="modal-title">请用微信扫码打开</h3>
+        <div class="qr-content">
+            <img src="{{ url_for('static', filename='images/system-suggest-qr.png') }}" alt="系统建议二维码" class="qr-image">
+        </div>
+        <div class="modal-buttons">
+            <button class="modal-btn save" onclick="saveImage('{{ url_for('static', filename='images/system-suggest-qr.png') }}', this)">保存到相册</button>
+            <button class="modal-btn back" onclick="hideModal('systemModal')">返回</button>
+        </div>
+    </div>
+
+    <!-- 积分兑换弹窗 -->
+    <div class="modal glass" id="pointsModal">
+        <h3 class="modal-title">请用微信扫码打开</h3>
+        <div class="qr-content">
+            <img src="{{ url_for('static', filename='images/points-exchange-qr.png') }}" alt="积分兑换二维码" class="qr-image">
+        </div>
+        <div class="modal-buttons">
+            <button class="modal-btn save" onclick="saveImage('{{ url_for('static', filename='images/points-exchange-qr.png') }}', this)">保存到相册</button>
+            <button class="modal-btn back" onclick="hideModal('pointsModal')">返回</button>
+        </div>
+    </div>
+
+    <script>
+        let currentWeek = '5';
+
+        // 周次选择
+        document.querySelectorAll('.week-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentWeek = this.dataset.week;
+            });
+        });
+
+        // 查询积分
+        async function searchScore() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (!name) {
+                alert('请输入姓名');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/score/${currentWeek}/${encodeURIComponent(name)}`);
+                const data = await response.json();
+                
+                const container = document.getElementById('resultContainer');
+                
+                if (data.error) {
+                    container.innerHTML = `<div class="error-message">${data.error}</div>`;
+                } else {
+                    let detailsHtml = '';
+                    for (const [key, value] of Object.entries(data.data)) {
+                        detailsHtml += `
+                            <div class="score-item">
+                                <span class="score-label">${key}</span>
+                                <span class="score-value">${value}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    container.innerHTML = `
+                        <div class="score-card glass">
+                            <div class="score-header">
+                                <span class="student-name">${data.name}</span>
+                                <span class="total-score">${data.data['累计得分'] || 0}分</span>
+                            </div>
+                            <div class="score-details">
+                                ${detailsHtml}
+                            </div>
+                        </div>
+                    `;
+                }
+                container.classList.add('show');
+            } catch (error) {
+                console.error('查询失败:', error);
+                document.getElementById('resultContainer').innerHTML = 
+                    '<div class="error-message">查询失败，请重试</div>';
+                document.getElementById('resultContainer').classList.add('show');
+            }
+        }
+
+        // 回车搜索
+        document.getElementById('nameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchScore();
+            }
+        });
+
+        // 弹窗控制
+        function showModal(modalId) {
+            document.getElementById('modalOverlay').classList.add('show');
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+            document.getElementById('modalOverlay').classList.remove('show');
+        }
+
+        function hideAllModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('show');
+            });
+            document.getElementById('modalOverlay').classList.remove('show');
+        }
+
+        // 保存图片
+        function saveImage(src, btn) {
+            const link = document.createElement('a');
+            link.href = src;
+            link.download = '二维码.png';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            
+            try {
+                link.click();
+                const originalText = btn.textContent;
+                btn.textContent = '已保存!';
+                btn.style.background = 'linear-gradient(135deg, #5cb85c, #4cae4c)';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 1500);
+            } catch (err) {
+                btn.textContent = '请长按图片保存';
+                setTimeout(() => {
+                    btn.textContent = '保存到相册';
+                }, 2000);
+            }
+            
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
