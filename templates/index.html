@@ -2416,6 +2416,7 @@
         <!-- 查询主页 -->
         <div class="search-page glass" id="searchPage">
             <h1 class="main-title">高一11班积分管理系统</h1>
+            <div class="current-time" id="currentTime" style="color: #6b7b9c; font-size: 14px; margin-bottom: 15px; text-align: center;"></div>
             <input class="input-box glass" type="text" id="nameInput" placeholder="请输入姓名查询积分">
             <button class="btn glass" id="searchBtn">立即查询</button>
             <p class="tip-text">支持输入学生姓名进行精准查询</p>
@@ -7648,6 +7649,31 @@
 
     // 右上角按钮功能
     document.addEventListener('DOMContentLoaded', function() {
+        // 自动校准时间
+        var currentTimeDiv = document.getElementById('currentTime');
+        if (currentTimeDiv) {
+            function updateTime() {
+                var now = new Date();
+                var year = now.getFullYear();
+                var month = now.getMonth() + 1;
+                var day = now.getDate();
+                var hour = now.getHours();
+                var minute = now.getMinutes();
+                var second = now.getSeconds();
+                var weekday = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][now.getDay()];
+                
+                month = month < 10 ? '0' + month : month;
+                day = day < 10 ? '0' + day : day;
+                hour = hour < 10 ? '0' + hour : hour;
+                minute = minute < 10 ? '0' + minute : minute;
+                second = second < 10 ? '0' + second : second;
+                
+                currentTimeDiv.textContent = year + '年' + month + '月' + day + '日 ' + weekday + ' ' + hour + ':' + minute + ':' + second;
+            }
+            updateTime();
+            setInterval(updateTime, 1000);
+        }
+        
         var feedbackBtn = document.getElementById('feedbackBtn');
         var exchangeBtn = document.getElementById('exchangeBtn');
         var adminBtn = document.getElementById('adminBtn');

@@ -201,7 +201,16 @@ def admin_required(f):
 @app.route('/')
 def index():
     """主页"""
-    return render_template('index.html')
+    now = datetime.now()
+    return render_template('index.html', 
+                          current_date=now.strftime('%Y-%m-%d'),
+                          current_time=now.strftime('%H:%M:%S'),
+                          current_year=now.year,
+                          current_month=now.month,
+                          current_day=now.day,
+                          current_hour=now.hour,
+                          current_minute=now.minute,
+                          current_second=now.second)
 
 @app.route('/api/score/<week>/<name>')
 def get_score(week, name):
@@ -357,7 +366,28 @@ def admin_score_change():
     change = float(data.get('change'))
     reason = data.get('reason', '')
     
-    # 记录积分变动
+    # 如果是全班学生，为每个学生创建积分变动记录
+    if name == "全班学生":
+        changes = load_data(SCORE_CHANGES_FILE)
+        latest_week = max(SCORE_DATA.keys(), key=lambda x: int(x))
+        all_students = list(SCORE_DATA[latest_week].keys())
+        
+        for student in all_students:
+            change_record = {
+                "id": hashlib.md5(f"{time.time()}{student}".encode()).hexdigest()[:16],
+                "name": student,
+                "change": change,
+                "reason": reason,
+                "timestamp": datetime.now().isoformat(),
+                "admin": session.get('is_admin', False),
+                "type": "全班扣分"
+            }
+            changes.append(change_record)
+        
+        save_data(SCORE_CHANGES_FILE, changes)
+        return jsonify({"success": True, "message": f"已为{len(all_students)}名学生统一修改积分"})
+    
+    # 普通单个学生积分变动
     change_record = {
         "id": hashlib.md5(f"{time.time()}{name}".encode()).hexdigest()[:16],
         "name": name,
